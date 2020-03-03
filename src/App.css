@@ -35,4 +35,5 @@ html {
 }
 
 .sidebar {
+  border-right: 2px groove #666;
 }
