@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./app.css";
+
+import { connect } from "react-redux";
 
 // Components
 import Editor from "./components/editor";
 import Nav from "./components/nav";
 import Sidebar from "./components/sidebar/sidebar";
 
-const app = () => {
+const app = ({ notes, dispatch }) => {
   return (
     <div className="App">
       <Sidebar />
@@ -18,4 +20,8 @@ const app = () => {
   );
 };
 
-export default app;
+const mapStateToProps = state => ({
+  notes: state.note.notes
+});
+
+export default connect(mapStateToProps)(app);
