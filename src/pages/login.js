@@ -1,7 +1,20 @@
 import React from "react";
 
-const login = () => {
-  return <div>Login</div>;
+// Components
+import { Title } from "../components/atoms";
+
+// TODO: Add login options with other providers
+const loginContainer = () => {
+  return <LoginView />;
 };
 
-export default login;
+const LoginView = () => {
+  return (
+    <div className="center card">
+      <Title>Login</Title>
+      <form></form>
+    </div>
+  );
+};
+
+export default loginContainer;

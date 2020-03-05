@@ -1,8 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Merriweather|Muli&display=swap");
-
-body {
-  font-family: "Muli", sans-serif;
-}
+@import "./_partials/typography";
 
 body,
 html {
@@ -36,4 +32,8 @@ html {
 
 .sidebar {
   border-right: 2px groove #666;
+}
+
+.center {
+  margin: auto;
 }
