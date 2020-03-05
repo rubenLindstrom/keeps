@@ -8,7 +8,7 @@ import Editor from "./components/editor";
 import Nav from "./components/nav";
 import Sidebar from "./components/sidebar/sidebar";
 
-const app = ({ notes, dispatch }) => {
+const app = ({ notes }) => {
   return (
     <div className="App">
       <Sidebar />
