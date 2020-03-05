@@ -1,27 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./app.css";
+import { Switch, Route } from "react-router-dom";
 
-import { connect } from "react-redux";
+// Pages
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
+import NotFound from "./pages/notFound";
 
-// Components
-import Editor from "./components/editor";
-import Nav from "./components/nav";
-import Sidebar from "./components/sidebar/sidebar";
-
-const app = ({ notes }) => {
+const app = () => {
   return (
-    <div className="App">
-      <Sidebar />
-      <div class="inner-wrapper">
-        <Nav />
-        <Editor />
-      </div>
+    <div className="main">
+      <Switch>
+        <Route path="/" component={Dashboard} exact />
+        <Route path="/login" component={Login} />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  notes: state.note.notes
-});
-
-export default connect(mapStateToProps)(app);
+export default app;
