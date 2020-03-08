@@ -51,4 +51,8 @@ html {
 .center {
   margin: auto;
 }
+
+.main {
+  background: url("./images/space-bg.jpg") center/cover no-repeat;
+}
 /*# sourceMappingURL=index.css.map */

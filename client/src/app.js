@@ -1,5 +1,4 @@
 import React from "react";
-import "./app.css";
 import { Switch, Route } from "react-router-dom";
 
 // Pages
@@ -14,7 +13,7 @@ const app = () => {
   return (
     <div className="main">
       <Switch>
-        <AuthRoute path="/" component={Dashboard} exact />
+        <Route path="/" component={Dashboard} exact />
         <Route path="/login" component={Login} />
         <Route component={NotFound} />
       </Switch>
