@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+
 import { doLogin, setToken } from "./services";
 
 const Context = createContext();
@@ -10,6 +11,7 @@ const Provider = ({ children }) => {
     doLogin(email, password).then(res => {
       if (res.data.token) {
         setToken(res.data.token);
+        setAuthenticated(true);
       }
     });
   };

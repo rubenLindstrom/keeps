@@ -31,7 +31,7 @@ const P = styled.p`
 const note = ({ title, date, body, id }) => {
   return (
     <Box className="note">
-      <Upper class="upper-row">
+      <Upper className="upper-row">
         <P className="title">{title}</P>
         <P>{date}</P>
       </Upper>

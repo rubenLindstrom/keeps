@@ -9,11 +9,11 @@ import { Provider } from "./context";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <Provider>
-    <Router>
+  <Router>
+    <Provider>
       <App />
-    </Router>
-  </Provider>,
+    </Provider>
+  </Router>,
   document.getElementById("root")
 );
 

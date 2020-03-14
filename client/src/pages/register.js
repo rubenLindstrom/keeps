@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import context from "../context";
 
 import { isEmail } from "../util";
-
-import { register } from "../services";
 
 // Components
 import { Title, Card } from "../components/atoms";
@@ -14,12 +13,20 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
-const RegisterContainer = () => {
+const RegisterContainer = ({ history }) => {
+  const { register, authenticated } = useContext(context);
+
   const refs = {
     email: useRef(null),
     pass: useRef(null),
     cPass: useRef(null)
   };
+
+  useEffect(() => {
+    if (authenticated) {
+      history.push("/");
+    }
+  }, [authenticated]);
 
   const handleSubmit = e => {
     e.preventDefault();

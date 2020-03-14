@@ -14,7 +14,7 @@ const app = () => {
   return (
     <div className="main">
       <Switch>
-        <Route path="/" component={Dashboard} exact />
+        <AuthRoute path="/" component={Dashboard} exact />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route component={NotFound} />

@@ -9,7 +9,7 @@ const dashboard = () => {
   return (
     <>
       <Sidebar />
-      <div class="inner-wrapper">
+      <div className="inner-wrapper">
         <Nav />
         <Editor />
       </div>

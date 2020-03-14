@@ -29,7 +29,7 @@ const sidebar = () => {
   return (
     <div className="sidebar">
       {notes.map(el => (
-        <Note {...el} />
+        <Note key={el.id} {...el} />
       ))}
     </div>
   );

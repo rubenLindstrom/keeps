@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { isEmail } from "../util";
@@ -13,8 +13,14 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
-const LoginContainer = () => {
-  const { login } = useContext(context);
+const LoginContainer = ({ history }) => {
+  const { login, authenticated } = useContext(context);
+
+  useEffect(() => {
+    if (authenticated) {
+      history.push("/");
+    }
+  }, [authenticated]);
 
   const refs = {
     email: useRef(null),
