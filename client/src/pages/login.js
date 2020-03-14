@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { isEmail } from "../util";
 
-import { login } from "../redux/services";
+import context from "../context";
 
 // Components
 import { Title, Card } from "../components/atoms";
@@ -14,6 +14,8 @@ import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
 const LoginContainer = () => {
+  const { login } = useContext(context);
+
   const refs = {
     email: useRef(null),
     pass: useRef(null)

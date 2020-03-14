@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { isEmail } from "../util";
 
-import { register } from "../redux/services";
+import { register } from "../services";
 
 // Components
 import { Title, Card } from "../components/atoms";
