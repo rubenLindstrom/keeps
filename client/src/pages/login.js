@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
+
+import { isEmail } from "../util";
 
 import { login } from "../redux/services";
 
@@ -10,30 +13,50 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
-const loginContainer = () => {
-  const handleSubmit = e => {
-    e.preventDefault();
-    login("test", "test");
+const LoginContainer = () => {
+  const refs = {
+    email: useRef(null),
+    pass: useRef(null)
   };
 
-  return <LoginView onSubmit={handleSubmit} />;
+  const handleSubmit = e => {
+    e.preventDefault();
+    const email = refs.email.current.value;
+    const pass = refs.pass.current.value;
+
+    // TODO: Set error messages
+    if (!isEmail(email)) return;
+    if (pass.length < 6) return;
+
+    login(email, pass);
+  };
+
+  return <LoginView onSubmit={handleSubmit} refs={refs} />;
 };
 
-const LoginView = ({ onSubmit }) => {
+const LoginView = ({ onSubmit, refs }) => {
   return (
     <Card className="center" width={300}>
       <Title>Login</Title>
       <form onSubmit={onSubmit}>
-        <TextField label="Email" fullWidth />
-        <TextField label="Password" fullWidth />
+        <TextField inputRef={refs.email} label="Email" fullWidth />
+        <TextField
+          inputRef={refs.pass}
+          label="Password"
+          fullWidth
+          type="password"
+        />
         <br />
         <br />
         <Button type="submit" variant="contained" mt={5}>
           Submit
         </Button>
+        <p>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
       </form>
     </Card>
   );
 };
 
-export default loginContainer;
+export default LoginContainer;
