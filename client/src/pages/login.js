@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { isEmail } from "../util";
+import { isEmail } from "../helpers";
 
 import context from "../context";
 

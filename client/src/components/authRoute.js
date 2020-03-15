@@ -9,7 +9,7 @@ const AuthRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        authenticated ? (
+        authenticated !== false ? (
           <Component {...props} />
         ) : (
           <Redirect

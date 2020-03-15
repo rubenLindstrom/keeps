@@ -23,6 +23,12 @@ html {
 
 .sidebar {
   background-color: wheat;
+  display: flex;
+  flex-direction: column;
+
+  .notes {
+    flex: 1;
+  }
 }
 
 .editor {

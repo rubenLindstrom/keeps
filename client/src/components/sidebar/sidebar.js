@@ -1,38 +1,44 @@
-import React from "react";
-import uuid from "react-uuid";
+import React, { useContext } from "react";
+import context from "../../context";
+
+import Button from "@material-ui/core/Button";
 
 // Components
 import Note from "./note";
 
-const sidebar = () => {
-  const notes = [
-    { title: "Test", date: "2019-12-12", body: "Today is good", id: uuid() },
-    {
-      title: "Frankrike",
-      date: "2019-10-12",
-      body: "Viva la france",
-      id: uuid()
-    },
-    {
-      title: "Schweiz",
-      date: "2019-09-06",
-      body: "Long walks and nice cheese",
-      id: uuid()
-    },
-    {
-      title: "Jempa",
-      date: "2019-03-13",
-      body: "Ja må hon leva uti hundrade år",
-      id: uuid()
-    }
-  ];
+const Sidebar = () => {
+  const { notes, addNote, logout } = useContext(context);
   return (
     <div className="sidebar">
-      {notes.map(el => (
-        <Note key={el.id} {...el} />
-      ))}
+      <AddNote handleAdd={addNote} />
+      <Notes notes={notes} />
+      <UserControls logout={logout} />
     </div>
   );
 };
 
-export default sidebar;
+const AddNote = ({ handleAdd }) => (
+  <div className="add-note">
+    <p onClick={handleAdd}>Add note</p>
+  </div>
+);
+
+const Notes = ({ notes }) => (
+  <div className="notes">
+    {notes ? (
+      Object.values(notes).map(el => <Note key={el.id} {...el} />)
+    ) : (
+      <p>Loading notes...</p>
+    )}
+  </div>
+);
+
+const UserControls = ({ logout }) => (
+  <div className="user-options">
+    <Button onClick={logout} fullWidth variant="contained">
+      Logout
+    </Button>
+  </div>
+);
+
+export default Sidebar;

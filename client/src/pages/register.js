@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import context from "../context";
 
-import { isEmail } from "../util";
+import { isEmail } from "../helpers";
 
 // Components
 import { Title, Card } from "../components/atoms";
