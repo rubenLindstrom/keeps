@@ -57,6 +57,12 @@ html {
   background-color: yellowgreen;
 }
 
+.editor > div {
+  height: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .sidebar {
   border-right: 2px groove #666;
 }
