@@ -5,11 +5,11 @@ const clientConfig = require("./clientConfig.js");
 const client = require("firebase/app");
 require("firebase/auth");
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(adminConfig),
-//   databaseURL: "https://keeps-81a16.firebaseio.com"
-// });
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp({
+  credential: admin.credential.cert(adminConfig),
+  databaseURL: "https://keeps-81a16.firebaseio.com"
+});
+// admin.initializeApp(functions.config().firebase);
 
 client.initializeApp(clientConfig);
 

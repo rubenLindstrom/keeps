@@ -1,16 +1,20 @@
 const functions = require("firebase-functions");
 const app = require("express")();
+const cors = require("cors");
+
+app.use(cors());
 
 // Middleware
 const auth = require("./middleware/auth");
 
 // === HANDLERS ===
-const { register, login } = require("./handlers/auth");
+const { register, login, logout, validateToken } = require("./handlers/auth");
 const { getNotes, addNote, updateNote } = require("./handlers/notes");
 
 // Auth
 app.post("/register", register);
 app.post("/login", login);
+app.post("/validateToken", validateToken);
 
 // Notes
 app.get("/notes", auth, getNotes);

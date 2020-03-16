@@ -14,7 +14,7 @@ exports.getNotes = async (req, res) => {
 
 exports.addNote = (req, res) => {
   const { title } = req.body;
-  const { handle, notes } = req.user;
+  const { notes, uid } = req.user;
 
   // TODO: Validate
   const newNote = {
@@ -22,7 +22,7 @@ exports.addNote = (req, res) => {
     body: "",
     createdAt: new Date().toISOString(),
     sharedWith: [],
-    owner: handle
+    owner: uid
   };
 
   // TODO: Promise.all
@@ -31,15 +31,18 @@ exports.addNote = (req, res) => {
     .add(newNote)
     .then(note => {
       id = note.id;
-      return db.doc(`/users/${handle}`).get();
+      return db.doc(`/users/${uid}`).get();
     })
     .then(user =>
       user.ref.update({
         notes: [id, ...notes]
       })
     )
-    .then(() => res.status(201).json({ note: newNote, id }))
-    .catch(error => res.json({ error }));
+    .then(() => res.status(201).json({ ...newNote, id }))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error });
+    });
 };
 
 exports.updateNote = (req, res) => {

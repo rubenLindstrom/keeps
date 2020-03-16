@@ -1,10 +1,9 @@
-const { db, auth } = require("../util/firebase");
+const { db, auth, admin } = require("../util/firebase");
 
 exports.register = (req, res) => {
-  const { email, password, cPassword, handle } = req.body;
+  const { email, password, cPassword } = req.body;
 
   // TODO: Validate
-  // Check that handle is unique
   let token, uid;
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -15,13 +14,12 @@ exports.register = (req, res) => {
     .then(idToken => {
       token = idToken;
       const userCredentials = {
-        handle,
         email,
         uid,
         createdAt: new Date().toISOString(),
         notes: []
       };
-      return db.doc(`/users/${handle}`).set(userCredentials);
+      return db.doc(`/users/${uid}`).set(userCredentials);
     })
     .then(() => res.status(201).json({ token }))
     .catch(error => {
@@ -39,4 +37,16 @@ exports.login = (req, res) => {
     .then(({ user }) => user.getIdToken())
     .then(token => res.json({ token }))
     .catch(error => res.status(403).json({ error }));
+};
+
+exports.validateToken = (req, res) => {
+  const token = req.body.token;
+  if (!token) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+  admin
+    .auth()
+    .verifyIdToken(token)
+    .then(() => res.json({ success: true }))
+    .catch(err => res.status(403).json({ error: err }));
 };

@@ -27,7 +27,9 @@ const Provider = ({ children }) => {
           setToken(token);
           setAuthenticated(true);
         })
-        .catch();
+        .catch(() => setAuthenticated(false));
+    } else {
+      setAuthenticated(false);
     }
   }, []);
 
@@ -40,7 +42,6 @@ const Provider = ({ children }) => {
     doLogin(email, password).then(res => {
       if (res.data.token) {
         setToken(res.data.token);
-        localStorage.setItem("token", res.data.token);
         setAuthenticated(true);
       }
     });
@@ -63,12 +64,11 @@ const Provider = ({ children }) => {
   ];
 
   // Notes
-  const getNotes = () => doGetNotes().then(res => setNotes(res));
+  const getNotes = () => doGetNotes().then(res => setNotes(res.data));
 
   const addNote = title =>
     doAddNote(title).then(res => {
-      const newNotes = [res, ...notes];
-      setNotes(newNotes);
+      setNotes(notes => ({ [res.data.id]: res.data, ...notes }));
     });
 
   return (

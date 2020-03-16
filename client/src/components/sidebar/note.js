@@ -28,12 +28,12 @@ const P = styled.p`
   }
 `;
 
-const note = ({ title, date, body, id }) => {
+const note = ({ title, createdAt, body, id }) => {
   return (
     <Box className="note">
       <Upper className="upper-row">
         <P className="title">{title}</P>
-        <P>{date}</P>
+        <P>{createdAt.substring(0, 10)}</P>
       </Upper>
       <P className="body">{body}</P>
     </Box>

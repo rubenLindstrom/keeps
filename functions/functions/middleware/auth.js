@@ -1,4 +1,4 @@
-const { admin, db } = require("../util/firebase");
+const { admin, auth, db } = require("../util/firebase");
 
 module.exports = (req, res, next) => {
   let idToken;
@@ -24,8 +24,7 @@ module.exports = (req, res, next) => {
         .get();
     })
     .then(data => {
-      const { handle, notes } = data.docs[0].data();
-      req.user.handle = handle;
+      const { notes } = data.docs[0].data();
       req.user.notes = notes;
       // req.user.imageUrl = imageUrl;
       return next();

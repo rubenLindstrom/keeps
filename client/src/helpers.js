@@ -16,24 +16,37 @@ export const delay = (v, t) =>
 
 export const dummy = {
   notes: {
-    0: { title: "Test", date: "2019-12-12", body: "Today is good", id: uuid() },
+    0: {
+      title: "Test",
+      createdAt: new Date().toISOString(),
+      body: "Today is good",
+      id: uuid(),
+      sharedWith: [],
+      owner: uuid()
+    },
     1: {
       title: "Frankrike",
-      date: "2019-10-12",
+      createdAt: new Date().toISOString(),
       body: "Viva la france",
-      id: uuid()
+      id: uuid(),
+      sharedWith: [],
+      owner: uuid()
     },
     2: {
       title: "Schweiz",
-      date: "2019-09-06",
+      createdAt: new Date().toISOString(),
       body: "Long walks and nice cheese",
-      id: uuid()
+      id: uuid(),
+      sharedWith: [],
+      owner: uuid()
     },
     3: {
       title: "Jempa",
-      date: "2019-03-13",
+      createdAt: new Date().toISOString(),
       body: "Ja må hon leva uti hundrade år",
-      id: uuid()
+      id: uuid(),
+      sharedWith: [],
+      owner: uuid()
     }
   }
 };

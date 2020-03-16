@@ -4,24 +4,19 @@ import context from "../../context";
 import Button from "@material-ui/core/Button";
 
 // Components
+import AddNote from "./addNote";
 import Note from "./note";
 
 const Sidebar = () => {
-  const { notes, addNote, logout } = useContext(context);
+  const { notes, logout } = useContext(context);
   return (
     <div className="sidebar">
-      <AddNote handleAdd={addNote} />
+      <AddNote />
       <Notes notes={notes} />
       <UserControls logout={logout} />
     </div>
   );
 };
-
-const AddNote = ({ handleAdd }) => (
-  <div className="add-note">
-    <p onClick={handleAdd}>Add note</p>
-  </div>
-);
 
 const Notes = ({ notes }) => (
   <div className="notes">
