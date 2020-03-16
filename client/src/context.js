@@ -16,10 +16,11 @@ const Context = createContext();
 const Provider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(null);
   const [notes, setNotes] = useState(null);
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     // TODO: Implement error handling
     if (token) {
       doValidateToken(token)
@@ -64,16 +65,36 @@ const Provider = ({ children }) => {
   ];
 
   // Notes
-  const getNotes = () => doGetNotes().then(res => setNotes(res.data));
+  const getNotes = () =>
+    doGetNotes().then(res => {
+      setLoading(false);
+      setNotes(res.data);
+      if (Object.keys(res.data).length)
+        setSelectedNote(Object.values(res.data)[0]);
+    });
 
   const addNote = title =>
     doAddNote(title).then(res => {
       setNotes(notes => ({ [res.data.id]: res.data, ...notes }));
     });
 
+  const selectNote = id => {
+    setSelectedNote(notes[id]);
+  };
+
   return (
     <Context.Provider
-      value={{ authenticated, login, logout, register, notes, addNote }}
+      value={{
+        authenticated,
+        login,
+        logout,
+        register,
+        notes,
+        addNote,
+        selectedNote,
+        selectNote,
+        loading
+      }}
     >
       {children}
     </Context.Provider>

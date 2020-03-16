@@ -8,25 +8,32 @@ import AddNote from "./addNote";
 import Note from "./note";
 
 const Sidebar = () => {
-  const { notes, logout } = useContext(context);
+  const { logout } = useContext(context);
   return (
     <div className="sidebar">
       <AddNote />
-      <Notes notes={notes} />
+      <Notes />
       <UserControls logout={logout} />
     </div>
   );
 };
 
-const Notes = ({ notes }) => (
-  <div className="notes">
-    {notes ? (
-      Object.values(notes).map(el => <Note key={el.id} {...el} />)
-    ) : (
-      <p>Loading notes...</p>
-    )}
-  </div>
-);
+const Notes = () => {
+  const { notes } = useContext(context);
+  return (
+    <div className="notes">
+      {notes ? (
+        Object.keys(notes).length ? (
+          Object.values(notes).map(el => <Note key={el.id} {...el} />)
+        ) : (
+          <p>You have no notes yet...</p>
+        )
+      ) : (
+        <p>Loading notes...</p>
+      )}
+    </div>
+  );
+};
 
 const UserControls = ({ logout }) => (
   <div className="user-options">

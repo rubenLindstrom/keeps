@@ -40,18 +40,18 @@ export const unsetToken = () => {
 export const doLogin = (email, password, cPassword) =>
   axios.post("/login", { email, password, cPassword });
 
-export const doLogout = () => delay({ success: true }, 0);
-// export const doLogout = () => axios.post("/logout");
+// export const doLogout = () => delay({ success: true }, 0);
+export const doLogout = () => axios.post("/logout");
 
 export const doRegister = (email, password, cPassword) =>
   axios.post("/register", { email, password, cPassword });
 
-export const doValidateToken = token => delay({ success: true }, 500);
-// export const doValidateToken = token => axios.post("/validateToken", { token });
+// export const doValidateToken = token => delay({ success: true }, 500);
+export const doValidateToken = token => axios.post("/validateToken", { token });
 
 // Notes
-// export const doGetNotes = () => axios.get("/notes");
-export const doGetNotes = () => delay({ data: dummy.notes }, 500);
+export const doGetNotes = () => axios.get("/notes");
+// export const doGetNotes = () => delay({ data: dummy.notes }, 500);
 
 export const doAddNote = title => axios.post("/notes", { title });
 export const doUpdateNote = id => {};

@@ -1,7 +1,7 @@
 import React from "react";
 
 // Components
-import Editor from "../components/editor";
+import Editor from "../containers/editorContainer";
 import Nav from "../components/nav";
 import Sidebar from "../components/sidebar/sidebar";
 
@@ -11,7 +11,9 @@ const dashboard = () => {
       <Sidebar />
       <div className="inner-wrapper">
         <Nav />
-        <Editor />
+        <div className="editor">
+          <Editor />
+        </div>
       </div>
     </>
   );
