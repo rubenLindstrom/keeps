@@ -1,27 +1,22 @@
-import React, { useState, useContext, useEffect } from "react";
-import RichTextEditor from "react-rte";
+import React, { useContext } from "react";
 
 import context from "../context";
 
 import EditorView from "../components/editor";
 
 const EditorContainer = () => {
-  const { selectedNote, loading, saveNote } = useContext(context);
-  const [value, setValue] = useState(RichTextEditor.createEmptyValue());
-
-  useEffect(() => {
-    if (selectedNote)
-      setValue(RichTextEditor.createValueFromString(selectedNote.body, "html"));
-  }, [selectedNote]);
-
-  const handleValueChange = newValue => {
-    setValue(newValue);
-  };
+  const {
+    selectedNote,
+    loading,
+    editorValue,
+    setEditorValue,
+    saveNote
+  } = useContext(context);
 
   const handleKeyPress = e => {
     if (e.keyCode === 83 && e.ctrlKey) {
       e.preventDefault();
-      saveNote(value.toString("html"));
+      saveNote(selectedNote.id);
     }
   };
 
@@ -30,8 +25,8 @@ const EditorContainer = () => {
       <EditorView
         loading={loading}
         noNotes={!Boolean(selectedNote)}
-        value={value}
-        onChange={handleValueChange}
+        value={editorValue}
+        onChange={setEditorValue}
       />
     </div>
   );

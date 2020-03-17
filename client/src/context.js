@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import RichTextEditor from "react-rte";
 
 import {
   doLogin,
@@ -19,6 +20,9 @@ const Provider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(null);
   const [notes, setNotes] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [editorValue, setEditorValue] = useState(
+    RichTextEditor.createEmptyValue()
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,6 +41,13 @@ const Provider = ({ children }) => {
       setAuthenticated(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (selectedNote)
+      setEditorValue(
+        RichTextEditor.createValueFromString(notes[selectedNote].body, "html")
+      );
+  }, [selectedNote]);
 
   useEffect(() => {
     if (authenticated) getNotes();
@@ -92,11 +103,17 @@ const Provider = ({ children }) => {
     });
 
   const selectNote = id => {
+    const currentSelectedId = selectedNote;
+    const newNotes = { ...notes };
+    newNotes[currentSelectedId].body = editorValue.toString("html");
+
+    saveNote(currentSelectedId);
+    setNotes(newNotes);
     setSelectedNote(id);
   };
 
-  const saveNote = body => {
-    doUpdateNote(selectedNote, { body });
+  const saveNote = id => {
+    doUpdateNote(id, { body: editorValue.toString("html") });
   };
 
   const deleteNote = () => {
@@ -122,7 +139,8 @@ const Provider = ({ children }) => {
         selectedNote: selectedNote ? notes[selectedNote] : null,
         selectNote,
         deleteNote,
-        saveNote,
+        editorValue,
+        setEditorValue,
         saveNote,
         loading
       }}

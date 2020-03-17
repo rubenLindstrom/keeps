@@ -43,7 +43,7 @@ const NoteControls = () => {
         <DeleteIcon onClick={() => !disabled && deleteNote()} />
       </StyledIcon>
       <StyledIcon hoverColor="#3498db" className={disabled ? "disabled" : ""}>
-        <SaveIcon onClick={() => !disabled && saveNote()} />
+        <SaveIcon onClick={() => !disabled && saveNote(selectedNote.id)} />
       </StyledIcon>
     </>
   );
