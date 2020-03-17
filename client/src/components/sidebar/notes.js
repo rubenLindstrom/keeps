@@ -49,7 +49,9 @@ const Note = ({ title, createdAt, body, id }) => {
         <P className="title">{title}</P>
         <P>{createdAt.substring(0, 10)}</P>
       </Upper>
-      <P className="body">{body}</P>
+      <P className="body">
+        {body.replace(/<\/?[^>]+>/gi, " ").substring(0, 15)}
+      </P>
     </Box>
   );
 };

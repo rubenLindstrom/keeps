@@ -42,6 +42,7 @@ const Provider = ({ children }) => {
     if (authenticated) getNotes();
   }, [authenticated]);
 
+  // TODO: If note was added, select it
   useEffect(() => {
     if (notes && Object.keys(notes).length) {
       if (
@@ -95,7 +96,7 @@ const Provider = ({ children }) => {
   };
 
   const saveNote = body => {
-    doUpdateNote(selectedNote.id, { body });
+    doUpdateNote(selectedNote, { body });
   };
 
   const deleteNote = () => {
@@ -121,6 +122,7 @@ const Provider = ({ children }) => {
         selectedNote: selectedNote ? notes[selectedNote] : null,
         selectNote,
         deleteNote,
+        saveNote,
         saveNote,
         loading
       }}

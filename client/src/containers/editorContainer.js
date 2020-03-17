@@ -18,13 +18,22 @@ const EditorContainer = () => {
     setValue(newValue);
   };
 
+  const handleKeyPress = e => {
+    if (e.keyCode === 83 && e.ctrlKey) {
+      e.preventDefault();
+      saveNote(value.toString("html"));
+    }
+  };
+
   return (
-    <EditorView
-      loading={loading}
-      noNotes={!Boolean(selectedNote)}
-      value={value}
-      onChange={handleValueChange}
-    />
+    <div onKeyDown={handleKeyPress}>
+      <EditorView
+        loading={loading}
+        noNotes={!Boolean(selectedNote)}
+        value={value}
+        onChange={handleValueChange}
+      />
+    </div>
   );
 };
 

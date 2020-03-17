@@ -77,5 +77,5 @@ exports.deleteNote = (req, res) => {
   db.doc(`/users/${uid}`).update({
     notes: notes.filter(noteId => noteId !== id)
   });
-  return res.json({ message: `${id} deleted!` });
+  return res.status(204).json({ message: `${id} deleted!` });
 };

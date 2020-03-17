@@ -37,6 +37,7 @@ export const unsetToken = () => {
 };
 
 const MOCK = false;
+const MOCK_TIME = 100;
 
 // Auth
 export const doLogin = (email, password, cPassword) =>
@@ -54,7 +55,7 @@ export const doLogout = MOCK
   : () => axios.post("/logout").then(res => res.data.success);
 
 export const doValidateToken = MOCK
-  ? token => delay({ success: true }, 500)
+  ? token => delay({ success: true }, MOCK_TIME)
   : token =>
       axios.post("/validateToken", { token }).then(res => res.data.success);
 
@@ -63,11 +64,11 @@ export const doAddNote = title =>
   axios.post("/notes", { title }).then(res => res.data);
 
 export const doGetNotes = MOCK
-  ? () => delay(dummy.notes, 500)
+  ? () => delay(dummy.notes, MOCK_TIME)
   : () => axios.get("/notes").then(res => res.data);
 
 export const doDeleteNote = MOCK
-  ? id => delay({ success: true }, 500)
+  ? id => delay({ success: true }, MOCK_TIME)
   : id => axios.delete(`/notes/${id}`).then(res => res.data);
 
 export const doUpdateNote = (id, newNote) =>
