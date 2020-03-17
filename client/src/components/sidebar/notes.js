@@ -40,8 +40,9 @@ const Note = ({ title, createdAt, body, id }) => {
   const { selectNote, selectedNote } = useContext(context);
   return (
     <Box
-      className="note"
-      className={selectedNote && id === selectedNote.id ? "selected" : ""}
+      className={`note ${
+        selectedNote && id === selectedNote.id ? "selected" : ""
+      }`}
       onClick={() => selectNote(id)}
     >
       <Upper className="upper-row">
@@ -53,4 +54,14 @@ const Note = ({ title, createdAt, body, id }) => {
   );
 };
 
-export default Note;
+const Notes = () => {
+  const { notes } = useContext(context);
+
+  return (
+    <div className="notes">
+      {notes && Object.values(notes).map(el => <Note key={el.id} {...el} />)}
+    </div>
+  );
+};
+
+export default Notes;

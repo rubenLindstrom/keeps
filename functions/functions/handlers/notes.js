@@ -4,12 +4,15 @@ exports.getNotes = async (req, res) => {
   const notes = req.user.notes;
 
   const noteRefs = notes.map(id => db.doc(`/notes/${id}`));
-  if (!noteRefs.length) return res.json({ notes: {} });
-  db.getAll(...noteRefs).then(notes => {
+  if (!noteRefs.length) return res.json({});
+  db.getAll(...noteRefs).then(notes =>
     res.json(
-      notes.reduce((acc, note) => ({ [note.id]: note.data(), ...acc }), {})
-    );
-  });
+      notes.reduce(
+        (acc, note) => ({ [note.id]: { ...note.data(), id: note.id }, ...acc }),
+        {}
+      )
+    )
+  );
 };
 
 exports.addNote = (req, res) => {
@@ -63,18 +66,16 @@ exports.updateNote = (req, res) => {
 
 exports.deleteNote = (req, res) => {
   const id = req.params.noteId;
-  const { handle, notes } = req.user;
+  const notes = req.user.notes;
+  const uid = req.user.uid;
 
   // Validation
   if (!notes.includes(id))
     return res.status(403).json({ error: "Unauthorized" });
 
   db.doc(`/notes/${id}`).delete();
-  db.doc(`/users/${handle}`).update({
-    notes: Object.keys(notes).reduce(
-      (acc, key) => (key !== id ? { [key]: notes[key], ...acc } : acc),
-      {}
-    )
+  db.doc(`/users/${uid}`).update({
+    notes: notes.filter(noteId => noteId !== id)
   });
   return res.json({ message: `${id} deleted!` });
 };

@@ -5,42 +5,27 @@ import Button from "@material-ui/core/Button";
 
 // Components
 import AddNote from "./addNote";
-import Note from "./note";
+import Notes from "./notes";
 
 const Sidebar = () => {
-  const { logout } = useContext(context);
   return (
     <div className="sidebar">
       <AddNote />
       <Notes />
-      <UserControls logout={logout} />
+      <UserControls />
     </div>
   );
 };
 
-const Notes = () => {
-  const { notes } = useContext(context);
+const UserControls = () => {
+  const { logout } = useContext(context);
   return (
-    <div className="notes">
-      {notes ? (
-        Object.keys(notes).length ? (
-          Object.values(notes).map(el => <Note key={el.id} {...el} />)
-        ) : (
-          <p>You have no notes yet...</p>
-        )
-      ) : (
-        <p>Loading notes...</p>
-      )}
+    <div className="user-options">
+      <Button onClick={logout} fullWidth variant="contained">
+        Logout
+      </Button>
     </div>
   );
 };
-
-const UserControls = ({ logout }) => (
-  <div className="user-options">
-    <Button onClick={logout} fullWidth variant="contained">
-      Logout
-    </Button>
-  </div>
-);
 
 export default Sidebar;

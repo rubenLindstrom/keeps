@@ -36,23 +36,39 @@ export const unsetToken = () => {
   delete axios.defaults.headers.common["Authorization"];
 };
 
+const MOCK = false;
+
 // Auth
 export const doLogin = (email, password, cPassword) =>
-  axios.post("/login", { email, password, cPassword });
-
-// export const doLogout = () => delay({ success: true }, 0);
-export const doLogout = () => axios.post("/logout");
+  axios
+    .post("/login", { email, password, cPassword })
+    .then(res => res.data.token);
 
 export const doRegister = (email, password, cPassword) =>
-  axios.post("/register", { email, password, cPassword });
+  axios
+    .post("/register", { email, password, cPassword })
+    .then(res => res.data.token);
 
-// export const doValidateToken = token => delay({ success: true }, 500);
-export const doValidateToken = token => axios.post("/validateToken", { token });
+export const doLogout = MOCK
+  ? () => delay({ success: true }, 0)
+  : () => axios.post("/logout").then(res => res.data.success);
+
+export const doValidateToken = MOCK
+  ? token => delay({ success: true }, 500)
+  : token =>
+      axios.post("/validateToken", { token }).then(res => res.data.success);
 
 // Notes
-export const doGetNotes = () => axios.get("/notes");
-// export const doGetNotes = () => delay({ data: dummy.notes }, 500);
+export const doAddNote = title =>
+  axios.post("/notes", { title }).then(res => res.data);
 
-export const doAddNote = title => axios.post("/notes", { title });
-export const doUpdateNote = id => {};
-export const doDeleteNote = id => {};
+export const doGetNotes = MOCK
+  ? () => delay(dummy.notes, 500)
+  : () => axios.get("/notes").then(res => res.data);
+
+export const doDeleteNote = MOCK
+  ? id => delay({ success: true }, 500)
+  : id => axios.delete(`/notes/${id}`).then(res => res.data);
+
+export const doUpdateNote = (id, newNote) =>
+  axios.patch(`/notes/${id}`, newNote);

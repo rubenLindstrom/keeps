@@ -9,18 +9,28 @@ const AddNote = () => {
   const inputRef = useRef();
   const { addNote } = useContext(context);
 
-  const handleClick = e => {
+  const doAddNote = e => {
     const title = inputRef.current.value;
     // TODO: Set error
     if (isEmpty(title)) return;
     addNote(title);
+    inputRef.current.value = "";
+  };
+
+  const handleKeyPress = e => {
+    if (e.keyCode === 13 || e.which === 13) doAddNote();
   };
 
   return (
     <div className="add-note">
-      <TextField inputRef={inputRef} fullWidth placeholder="Title" />
+      <TextField
+        onKeyPress={handleKeyPress}
+        inputRef={inputRef}
+        fullWidth
+        placeholder="Title"
+      />
       <div>
-        <Button onClick={handleClick} fullWidth variant="contained">
+        <Button onClick={doAddNote} fullWidth variant="contained">
           Add note
         </Button>
       </div>

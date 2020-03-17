@@ -9,7 +9,6 @@ import { Title, Card } from "../components/atoms";
 
 // MUI
 import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
@@ -26,6 +25,7 @@ const RegisterContainer = ({ history }) => {
     if (authenticated) {
       history.push("/");
     }
+    // eslint-disable-next-line
   }, [authenticated]);
 
   const handleSubmit = e => {

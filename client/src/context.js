@@ -5,8 +5,10 @@ import {
   doLogout,
   doRegister,
   doGetNotes,
+  doUpdateNote,
   doValidateToken,
   doAddNote,
+  doDeleteNote,
   setToken,
   unsetToken
 } from "./services";
@@ -28,7 +30,9 @@ const Provider = ({ children }) => {
           setToken(token);
           setAuthenticated(true);
         })
-        .catch(() => setAuthenticated(false));
+        .catch(() => {
+          setAuthenticated(false);
+        });
     } else {
       setAuthenticated(false);
     }
@@ -38,48 +42,71 @@ const Provider = ({ children }) => {
     if (authenticated) getNotes();
   }, [authenticated]);
 
+  useEffect(() => {
+    if (notes && Object.keys(notes).length) {
+      if (
+        !selectedNote ||
+        (selectedNote && !Object.keys(notes).includes(selectedNote))
+      )
+        setSelectedNote(Object.keys(notes)[0]);
+    } else {
+      setSelectedNote(null);
+    }
+    // eslint-disable-next-line
+  }, [notes]);
+
   // Auth
-  const login = (email, password) => {
-    doLogin(email, password).then(res => {
-      if (res.data.token) {
-        setToken(res.data.token);
+  const login = (email, password) =>
+    doLogin(email, password).then(token => {
+      if (token) {
+        setToken(token);
         setAuthenticated(true);
       }
     });
-  };
 
-  const register = (email, password, cPassword) => {
-    doRegister(email, password, cPassword).then(res => {
-      if (res.data.token) {
-        setToken(res.data.token);
+  const register = (email, password, cPassword) =>
+    doRegister(email, password, cPassword).then(token => {
+      if (token) {
+        setToken(token);
         setAuthenticated(true);
       }
     });
-  };
 
-  const logout = () => [
+  const logout = () =>
     doLogout().then(() => {
       setAuthenticated(false);
       unsetToken();
-    })
-  ];
+    });
 
   // Notes
   const getNotes = () =>
-    doGetNotes().then(res => {
+    doGetNotes().then(notes => {
       setLoading(false);
-      setNotes(res.data);
-      if (Object.keys(res.data).length)
-        setSelectedNote(Object.values(res.data)[0]);
+      setNotes(notes);
     });
 
   const addNote = title =>
-    doAddNote(title).then(res => {
-      setNotes(notes => ({ [res.data.id]: res.data, ...notes }));
+    doAddNote(title).then(newNote => {
+      setNotes(notes => ({ [newNote.id]: newNote, ...notes }));
     });
 
   const selectNote = id => {
-    setSelectedNote(notes[id]);
+    setSelectedNote(id);
+  };
+
+  const saveNote = body => {
+    doUpdateNote(selectedNote.id, { body });
+  };
+
+  const deleteNote = () => {
+    if (selectedNote) {
+      doDeleteNote(selectedNote);
+      setNotes(prevNotes =>
+        Object.keys(prevNotes)
+          .filter(id => id !== selectedNote)
+          .reduce((acc, key) => ({ [key]: prevNotes[key], ...acc }), {})
+      );
+    }
   };
 
   return (
@@ -91,8 +118,10 @@ const Provider = ({ children }) => {
         register,
         notes,
         addNote,
-        selectedNote,
+        selectedNote: selectedNote ? notes[selectedNote] : null,
         selectNote,
+        deleteNote,
+        saveNote,
         loading
       }}
     >

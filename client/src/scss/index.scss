@@ -18,7 +18,16 @@ html {
 }
 
 .nav {
-  background-color: pink;
+  display: flex;
+  color: #fff;
+  padding: 0 2rem;
+  justify-content: space-between;
+
+  .note-controls {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+  }
 }
 
 .sidebar {
@@ -33,7 +42,7 @@ html {
 
 .editor {
   flex: 1;
-  background-color: yellowgreen;
+  background-color: #fff;
 
   > div {
     height: 100%;

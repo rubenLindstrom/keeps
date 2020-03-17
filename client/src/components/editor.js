@@ -2,8 +2,8 @@ import React from "react";
 import RichTextEditor from "react-rte";
 
 const editorView = ({ loading, value, onChange, noNotes }) => {
-  if (loading) return <p>Fetching notes...</p>;
-  else if (noNotes) return <p>You have no notes :(</p>;
+  if (loading) return <p className="big">Fetching notes...</p>;
+  else if (noNotes) return <p className="big">You have no notes :(</p>;
 
   return (
     <RichTextEditor

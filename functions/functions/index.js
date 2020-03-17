@@ -8,8 +8,13 @@ app.use(cors());
 const auth = require("./middleware/auth");
 
 // === HANDLERS ===
-const { register, login, logout, validateToken } = require("./handlers/auth");
-const { getNotes, addNote, updateNote } = require("./handlers/notes");
+const { register, login, validateToken } = require("./handlers/auth");
+const {
+  getNotes,
+  addNote,
+  updateNote,
+  deleteNote
+} = require("./handlers/notes");
 
 // Auth
 app.post("/register", register);
@@ -19,6 +24,7 @@ app.post("/validateToken", validateToken);
 // Notes
 app.get("/notes", auth, getNotes);
 app.post("/notes", auth, addNote);
-app.put("/notes/:noteId", auth, updateNote);
+app.patch("/notes/:noteId", auth, updateNote);
+app.delete("/notes/:noteId", auth, deleteNote);
 
 exports.api = functions.region("europe-west2").https.onRequest(app);
