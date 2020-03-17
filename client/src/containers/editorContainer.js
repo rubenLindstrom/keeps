@@ -6,7 +6,7 @@ import context from "../context";
 import EditorView from "../components/editor";
 
 const EditorContainer = () => {
-  const { selectedNote, loading } = useContext(context);
+  const { selectedNote, loading, saveNote } = useContext(context);
   const [value, setValue] = useState(RichTextEditor.createEmptyValue());
 
   useEffect(() => {

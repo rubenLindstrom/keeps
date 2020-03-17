@@ -17,15 +17,10 @@ module.exports = (req, res, next) => {
     .verifyIdToken(idToken)
     .then(decodedToken => {
       req.user = decodedToken;
-      return db
-        .collection("users")
-        .where("uid", "==", req.user.uid)
-        .limit(1)
-        .get();
+      return db.doc(`/users/${req.user.uid}`).get();
     })
-    .then(data => {
-      const { notes } = data.docs[0].data();
-      req.user.notes = notes;
+    .then(res => {
+      req.user.notes = res.data().notes;
       // req.user.imageUrl = imageUrl;
       return next();
     })

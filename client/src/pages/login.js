@@ -20,6 +20,7 @@ const LoginContainer = ({ history }) => {
     if (authenticated) {
       history.push("/");
     }
+    // eslint-disable-next-line
   }, [authenticated]);
 
   const refs = {
