@@ -10,6 +10,8 @@ export const isEmail = email =>
     ? true
     : false;
 
+export const isEnterKey = e => e.keyCode === 13 || e.which === 13;
+
 export const delay = (v, t) =>
   new Promise((resolve, reject) => {
     setTimeout(() => resolve(v), t);

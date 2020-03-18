@@ -107,4 +107,8 @@ html {
 .main {
   background: url("./images/space-bg.jpg") center/cover no-repeat;
 }
+
+.share-input {
+  border-color: #fff;
+}
 /*# sourceMappingURL=index.css.map */

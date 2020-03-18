@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 import NoteContext from "../../contexts/noteContext";
-import { isEmpty } from "../../helpers";
+import { isEmpty, isEnterKey } from "../../helpers";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -18,7 +18,7 @@ const AddNote = () => {
   };
 
   const handleKeyPress = e => {
-    if (e.keyCode === 13 || e.which === 13) doAddNote();
+    if (isEnterKey(e)) doAddNote();
   };
 
   return (

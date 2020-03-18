@@ -8,7 +8,14 @@ import React, {
 import AuthContext from "./authContext";
 import RichTextEditor from "react-rte";
 
-import { doGetNotes, doUpdateNote, doAddNote, doDeleteNote } from "../services";
+import {
+  doGetNotes,
+  doUpdateNote,
+  doAddNote,
+  doDeleteNote,
+  doShare
+} from "../services";
+import { isEmail } from "../helpers";
 
 const NoteContext = createContext();
 
@@ -60,6 +67,13 @@ const noteReducer = (state, action) => {
         selectedNote: newSelectedNote
       };
 
+    case "CLEAR_STATE":
+      return {
+        notes: null,
+        selectedNote: null,
+        loading: true
+      };
+
     default:
       return state;
   }
@@ -89,6 +103,7 @@ const NoteProvider = ({ children }) => {
 
   useEffect(() => {
     if (authenticated) getNotes();
+    else dispatch({ type: "CLEAR_STATE" });
   }, [authenticated]);
 
   // Notes
@@ -129,6 +144,10 @@ const NoteProvider = ({ children }) => {
     }
   };
 
+  const shareNote = email => {
+    if (isEmail(email)) doShare(email, note.selectedNote);
+  };
+
   return (
     <NoteContext.Provider
       value={{
@@ -140,7 +159,8 @@ const NoteProvider = ({ children }) => {
         editorValue,
         setEditorValue,
         saveNote,
-        loading: note.loading
+        loading: note.loading,
+        shareNote
       }}
     >
       {children}

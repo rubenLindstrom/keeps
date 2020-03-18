@@ -73,3 +73,8 @@ export const doDeleteNote = MOCK
 export const doUpdateNote = MOCK
   ? (id, newNote) => delay({ success: true }, MOCK_TIME)
   : (id, newNote) => axios.patch(`/notes/${id}`, newNote);
+
+export const doShare = MOCK
+  ? (email, noteId) => delay({ success: true }, MOCK_TIME)
+  : (email, noteId) =>
+      axios.post(`/notes/${noteId}/share`, { shareWith: email });
