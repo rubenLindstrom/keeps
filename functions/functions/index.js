@@ -13,7 +13,8 @@ const {
   getNotes,
   addNote,
   updateNote,
-  deleteNote
+  deleteNote,
+  shareNote
 } = require("./handlers/notes");
 
 // Auth
@@ -26,5 +27,6 @@ app.get("/notes", auth, getNotes);
 app.post("/notes", auth, addNote);
 app.patch("/notes/:noteId", auth, updateNote);
 app.delete("/notes/:noteId", auth, deleteNote);
+app.post("/notes/:noteId/share", auth, shareNote);
 
 exports.api = functions.region("europe-west2").https.onRequest(app);
