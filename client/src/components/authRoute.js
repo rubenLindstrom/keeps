@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import context from "../context";
+import AuthContext from "../contexts/authContext";
 
 import { Route, Redirect } from "react-router-dom";
 
 const AuthRoute = ({ component: Component, ...rest }) => {
-  const { authenticated } = useContext(context);
+  const { authenticated } = useContext(AuthContext);
   return (
     <Route
       {...rest}

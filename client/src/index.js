@@ -4,15 +4,18 @@ import App from "./app";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
-import { Provider } from "./context";
+import { AuthProvider } from "./contexts/authContext";
+import { NoteProvider } from "./contexts/noteContext";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <Router>
-    <Provider>
-      <App />
-    </Provider>
+    <AuthProvider>
+      <NoteProvider>
+        <App />
+      </NoteProvider>
+    </AuthProvider>
   </Router>,
   document.getElementById("root")
 );

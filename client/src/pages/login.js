@@ -1,9 +1,9 @@
 import React, { useRef, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { isEmail } from "../helpers";
+import AuthContext from "../contexts/authContext";
 
-import context from "../context";
+import { isEmail } from "../helpers";
 
 // Components
 import { Title, Card } from "../components/atoms";
@@ -14,7 +14,7 @@ import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
 const LoginContainer = ({ history }) => {
-  const { login, authenticated } = useContext(context);
+  const { login, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (authenticated) {

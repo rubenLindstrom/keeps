@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import context from "../../context";
+import NoteContext from "../../contexts/noteContext";
 import { isEmpty } from "../../helpers";
 
 import TextField from "@material-ui/core/TextField";
@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 
 const AddNote = () => {
   const inputRef = useRef();
-  const { addNote } = useContext(context);
+  const { addNote } = useContext(NoteContext);
 
   const doAddNote = e => {
     const title = inputRef.current.value;

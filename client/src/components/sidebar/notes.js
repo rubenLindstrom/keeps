@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import context from "../../context";
+import NoteContext from "../../contexts/noteContext";
 import styled from "styled-components";
 
 const Box = styled.div`
@@ -37,7 +37,7 @@ const P = styled.p`
 `;
 
 const Note = ({ title, createdAt, body, id }) => {
-  const { selectNote, selectedNote } = useContext(context);
+  const { selectNote, selectedNote } = useContext(NoteContext);
   return (
     <Box
       className={`note ${
@@ -57,7 +57,7 @@ const Note = ({ title, createdAt, body, id }) => {
 };
 
 const Notes = () => {
-  const { notes } = useContext(context);
+  const { notes } = useContext(NoteContext);
 
   return (
     <div className="notes">

@@ -50,9 +50,8 @@ export const doRegister = (email, password, cPassword) =>
     .post("/register", { email, password, cPassword })
     .then(res => res.data.token);
 
-export const doLogout = MOCK
-  ? () => delay({ success: true }, 0)
-  : () => axios.post("/logout").then(res => res.data.success);
+export const doLogout = () => delay({ success: true }, MOCK_TIME);
+// export const doLogout = () => axios.post("/logout").then(res => res.data.success);
 
 export const doValidateToken = MOCK
   ? token => delay({ success: true }, MOCK_TIME)
@@ -71,5 +70,6 @@ export const doDeleteNote = MOCK
   ? id => delay({ success: true }, MOCK_TIME)
   : id => axios.delete(`/notes/${id}`).then(res => res.data);
 
-export const doUpdateNote = (id, newNote) =>
-  axios.patch(`/notes/${id}`, newNote);
+export const doUpdateNote = MOCK
+  ? (id, newNote) => delay({ success: true }, MOCK_TIME)
+  : (id, newNote) => axios.patch(`/notes/${id}`, newNote);

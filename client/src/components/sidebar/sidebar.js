@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import context from "../../context";
+import AuthContext from "../../contexts/authContext";
 
 import Button from "@material-ui/core/Button";
 
@@ -18,7 +18,7 @@ const Sidebar = () => {
 };
 
 const UserControls = () => {
-  const { logout } = useContext(context);
+  const { logout } = useContext(AuthContext);
   return (
     <div className="user-options">
       <Button onClick={logout} fullWidth variant="contained">

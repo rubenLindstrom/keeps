@@ -15,7 +15,7 @@ export const delay = (v, t) =>
     setTimeout(() => resolve(v), t);
   });
 
-const ids = [uuid(), uuid(), uuid(), uuid(), uuid()];
+const ids = [uuid(), uuid(), uuid(), uuid(), uuid(), uuid(), uuid(), uuid()];
 
 export const dummy = {
   notes: {
@@ -52,6 +52,33 @@ export const dummy = {
       updatedAt: new Date().toISOString(),
       body: "Ja må hon leva uti hundrade år",
       id: ids[3],
+      sharedWith: [],
+      owner: uuid()
+    },
+    [ids[4]]: {
+      title: "Jempa",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      body: "Ja må hon leva uti hundrade år",
+      id: ids[4],
+      sharedWith: [],
+      owner: uuid()
+    },
+    [ids[5]]: {
+      title: "Jempa",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      body: "Ja må hon leva uti hundrade år",
+      id: ids[5],
+      sharedWith: [],
+      owner: uuid()
+    },
+    [ids[6]]: {
+      title: "Jempa",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      body: "Ja må hon leva uti hundrade år",
+      id: ids[6],
       sharedWith: [],
       owner: uuid()
     }

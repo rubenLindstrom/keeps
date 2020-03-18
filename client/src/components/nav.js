@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import context from "../context";
+import NoteContext from "../contexts/noteContext";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
@@ -34,7 +34,7 @@ const StyledIcon = styled.span`
 `;
 
 const NoteControls = () => {
-  const { deleteNote, selectedNote, saveNote } = useContext(context);
+  const { deleteNote, selectedNote, saveNote } = useContext(NoteContext);
   const disabled = selectedNote === null;
 
   return (

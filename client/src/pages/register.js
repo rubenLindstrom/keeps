@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import context from "../context";
+import AuthContext from "../contexts/authContext";
 
 import { isEmail } from "../helpers";
 
@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 
 // TODO: Add login options with other providers
 const RegisterContainer = ({ history }) => {
-  const { register, authenticated } = useContext(context);
+  const { register, authenticated } = useContext(AuthContext);
 
   const refs = {
     email: useRef(null),
