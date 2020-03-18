@@ -1,9 +1,13 @@
 const { db, auth, admin } = require("../util/firebase");
+const { isEmail } = require("../util/helpers");
 
 exports.register = (req, res) => {
   const { email, password, cPassword } = req.body;
 
-  // TODO: Validate
+  if (!isEmail(email)) return res.status(400).json({ email: "Invalid email" });
+  if (password !== cPassword)
+    return res.status(400).json({ cPassword: "Passwords must match!" });
+
   let token, uid;
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -30,6 +34,8 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
   const { email, password } = req.body;
+
+  if (!isEmail(email)) return res.status(400).json({ error: "Invalid email" });
 
   // TODO: Validate
   auth
