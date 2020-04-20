@@ -28,7 +28,7 @@ to start the devlopment server. :tent:
     │   │  │  ├── notes.js            # Contains the component for the list of notes
     │   │  │  └── sidebar.js          # Contains the main export of the directory, tying the other components together
     │   │  ├── atoms.js               # Contains small self containing components that are used globally
-    │   │  ├── authRoute.js           # Contains the decorated react-router route for verifying auth status for protected routes
+    │   │  ├── authRoute.js           # Contains the decorated react-router route for verifying auth for protected routes
     │   │  ├── editor.js              # Contains the RTE for the notes
     │   │  └── nav.js                 # Contains the navigation element
     │   ├── contexts                  # Contains the contexts for globally accessible state
