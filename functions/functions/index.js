@@ -8,18 +8,17 @@ app.use(cors());
 const auth = require("./middleware/auth");
 
 // === HANDLERS ===
-const { register, login, validateToken } = require("./handlers/auth");
+const { register, validateToken } = require("./handlers/auth");
 const {
-  getNotes,
-  addNote,
-  updateNote,
-  deleteNote,
-  shareNote
+	getNotes,
+	addNote,
+	updateNote,
+	deleteNote,
+	shareNote
 } = require("./handlers/notes");
 
 // Auth
 app.post("/register", register);
-app.post("/login", login);
 app.post("/validateToken", validateToken);
 
 // Notes
