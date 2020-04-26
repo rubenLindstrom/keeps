@@ -11,16 +11,16 @@ import NotFound from "./pages/notFound";
 import AuthRoute from "./components/authRoute";
 
 const app = () => {
-  return (
-    <div className="main">
-      <Switch>
-        <AuthRoute path="/" component={Dashboard} exact />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
-  );
+	return (
+		<main>
+			<Switch>
+				<AuthRoute path="/" component={Dashboard} exact />
+				<Route path="/login" component={Login} />
+				<Route path="/register" component={Register} />
+				<Route component={NotFound} />
+			</Switch>
+		</main>
+	);
 };
 
 export default app;
