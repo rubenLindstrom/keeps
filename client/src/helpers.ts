@@ -1,8 +1,8 @@
-import uuid from "react-uuid";
+import { v4 as uuidv4 } from "uuid";
 
-export const isEmpty = (str) => str.length === 0;
+export const isEmpty: (str: string) => boolean = (str) => str.length === 0;
 
-export const isEmail = (email) =>
+export const isEmail: (email: string) => boolean = (email) =>
 	email.match(
 		//eslint-disable-next-line
 		/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -10,16 +10,17 @@ export const isEmail = (email) =>
 		? true
 		: false;
 
-export const isEnterKey = (e) => e.keyCode === 13 || e.which === 13;
+export const isEnterKey: (e: KeyboardEvent) => boolean = (e) =>
+	e.keyCode === 13 || e.which === 13;
 
-export const delay = (v, t) =>
-	new Promise((resolve, reject) => {
+export const delay: (v: Object, t: number) => Promise<Object> = (v, t) =>
+	new Promise<Object>((resolve, reject) => {
 		setTimeout(() => resolve(v), t);
 	});
 
-const ids = Array(7).map(() => uuid());
+const ids: Array<string> = Array(7).map(() => uuidv4());
 
-export const dummy = {
+export const dummy: { notes: { [key: string]: Note } } = {
 	notes: {
 		[ids[0]]: {
 			title: "Test",
@@ -28,7 +29,7 @@ export const dummy = {
 			body: "Today is good",
 			id: ids[0],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[1]]: {
 			title: "Frankrike",
@@ -37,7 +38,7 @@ export const dummy = {
 			body: "Viva la france",
 			id: ids[1],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[2]]: {
 			title: "Schweiz",
@@ -46,7 +47,7 @@ export const dummy = {
 			body: "Long walks and nice cheese",
 			id: ids[2],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[3]]: {
 			title: "Jempa",
@@ -55,7 +56,7 @@ export const dummy = {
 			body: "Ja må hon leva uti hundrade år",
 			id: ids[3],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[4]]: {
 			title: "Jempa",
@@ -64,7 +65,7 @@ export const dummy = {
 			body: "Ja må hon leva uti hundrade år",
 			id: ids[4],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[5]]: {
 			title: "Jempa",
@@ -73,7 +74,7 @@ export const dummy = {
 			body: "Ja må hon leva uti hundrade år",
 			id: ids[5],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		},
 		[ids[6]]: {
 			title: "Jempa",
@@ -82,7 +83,7 @@ export const dummy = {
 			body: "Ja må hon leva uti hundrade år",
 			id: ids[6],
 			sharedWith: [],
-			owner: uuid()
+			owner: uuidv4()
 		}
 	}
 };
