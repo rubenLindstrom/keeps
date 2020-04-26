@@ -10,4 +10,14 @@ declare global {
 		sharedWith: Array<string>;
 		owner: string;
 	};
+
+	type BG = {
+		credit: string;
+		url: string;
+	};
+
+	type Quote = {
+		text: string;
+		author: string;
+	};
 }

@@ -13,7 +13,7 @@ html {
   margin: 0;
 }
 
-.main {
+main {
   height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -21,6 +21,7 @@ html {
 }
 
 .inner-wrapper {
+  position: relative;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -42,6 +43,7 @@ html {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  background: url("./images/space-bg.jpg") center/cover no-repeat;
 }
 
 .nav .note-controls {
@@ -108,10 +110,6 @@ html {
 
 .center {
   margin: auto;
-}
-
-.main {
-  background: url("./images/space-bg.jpg") center/cover no-repeat;
 }
 
 .share-input {

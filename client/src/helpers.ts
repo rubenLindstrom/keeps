@@ -13,7 +13,7 @@ export const isEmail: (email: string) => boolean = (email) =>
 export const isEnterKey: (e: KeyboardEvent) => boolean = (e) =>
 	e.keyCode === 13 || e.which === 13;
 
-export const delay: (v: Object, t: number) => Promise<Object> = (v, t) =>
+export const delay: (v: any, t: number) => Promise<any> = (v, t) =>
 	new Promise<Object>((resolve, reject) => {
 		setTimeout(() => resolve(v), t);
 	});

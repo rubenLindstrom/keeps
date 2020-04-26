@@ -49,10 +49,7 @@ const NoteControls = () => {
 	const disabled = selectedNote === null;
 	const shareRef = useRef();
 
-	const handleBlur = () => {
-		if (shareOpen) setShareOpen(false);
-	};
-
+	// TODO: Check if you can share by pressing enter
 	const handleShareChange = (e) => {
 		if (isEnterKey(e)) shareNote(shareRef.current.value);
 	};
