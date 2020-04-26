@@ -14,6 +14,7 @@ declare global {
 	type BG = {
 		credit: string;
 		url: string;
+		original: string;
 	};
 
 	type Quote = {

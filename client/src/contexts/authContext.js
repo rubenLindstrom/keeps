@@ -49,7 +49,11 @@ const AuthProvider = ({ children }) => {
 			if (user) {
 				auth.currentUser
 					.getIdToken(true)
-					.then(setToken)
+					.then((token) => {
+						console.log(token);
+						return token;
+					})
+					.then((token) => setToken(token))
 					.then(() => setAuthenticated(true))
 					.catch(() => setAuthenticated(false));
 			} else setAuthenticated(false);

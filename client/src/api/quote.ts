@@ -2,7 +2,7 @@ import { delay } from "../helpers";
 
 const URL: string = "https://type.fit/api/quotes";
 
-const MOCK = false;
+const MOCK = true;
 const mockQuote: Quote = {
 	text:
 		"A happy man is not sad, neither is he every satisfied. True wisdom lies in accepting what you have, and letting go of what you have not",

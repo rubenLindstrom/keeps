@@ -6,18 +6,21 @@ import * as serviceWorker from "./serviceWorker";
 
 import { AuthProvider } from "./contexts/authContext";
 import { NoteProvider } from "./contexts/noteContext";
+import { InspirationProvider } from "./contexts/inspirationContext";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <Router>
-    <AuthProvider>
-      <NoteProvider>
-        <App />
-      </NoteProvider>
-    </AuthProvider>
-  </Router>,
-  document.getElementById("root")
+	<Router>
+		<AuthProvider>
+			<NoteProvider>
+				<InspirationProvider>
+					<App />
+				</InspirationProvider>
+			</NoteProvider>
+		</AuthProvider>
+	</Router>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

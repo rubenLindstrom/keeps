@@ -2,8 +2,8 @@ import Unsplash, { toJson } from "unsplash-js";
 import { delay } from "../helpers";
 import spaceImg from "../images/space-bg2.jpg";
 
-const MOCK = false;
-const mockBg: BG = { credit: "ruben", url: spaceImg };
+const MOCK = true;
+const mockBg: BG = { credit: "ruben", url: spaceImg, original: "" };
 
 const unsplash: Unsplash = new Unsplash({
 	accessKey: process.env.REACT_APP_UNSPLASH_API_KEY || ""
@@ -29,7 +29,8 @@ export const getRandomImage: (query: string) => Promise<BG> = (query) =>
 					console.log(json);
 					return {
 						url: json[0].urls.full,
-						credit: json[0].user.name
+						credit: json[0].user.name,
+						original: json[0].links.html
 					};
 				})
 				.catch(() => "");
