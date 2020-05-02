@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../contexts/authContext";
 
 import Button from "@material-ui/core/Button";
+import Collapsible from "react-collapsible";
 
 // Components
 import AddNote from "./addNote";
@@ -11,7 +12,9 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <AddNote />
-      <Notes />
+      <Collapsible trigger="My notes" open easing="ease-in-out">
+        <Notes />
+      </Collapsible>
       <UserControls />
     </div>
   );

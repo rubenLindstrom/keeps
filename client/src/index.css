@@ -172,11 +172,27 @@ main {
   width: 200px;
 }
 
-.sidebar .notes {
+.sidebar .Collapsible {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   overflow-y: auto;
+  border-bottom: 2px solid #333;
+}
+
+.sidebar .Collapsible .Collapsible__trigger {
+  display: block;
+  background-color: #2980b9;
+  cursor: pointer;
+  padding: 0.5em;
+  text-align: center;
+}
+
+.sidebar .Collapsible .notes::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: #666;
 }
 
 .editor {
