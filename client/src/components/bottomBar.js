@@ -16,7 +16,7 @@ const BottomBarContainer = styled.div`
 
 const QuoteContainer = styled.section`
 	padding: 0.5em;
-	border-radius: 10px;
+	border-radius: 10px 0 0 0;
 	background-color: rgba(0, 0, 0, 0.3);
 	text-align: right;
 	max-width: 340px;
@@ -33,6 +33,7 @@ const QuoteContainer = styled.section`
 `;
 
 const Credit = styled.p`
+	background-color: rgba(0, 0, 0, 0.3);
 	margin: 0;
 	margin-right: 2rem;
 	a {

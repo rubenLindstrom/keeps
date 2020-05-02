@@ -25,7 +25,6 @@ axios.interceptors.response.use(
 	}
 );
 
-// TODO: If res.status = 403, log user out
 export const setToken: (token: string) => void = (token) => {
 	localStorage.setItem("token", token);
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

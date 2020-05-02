@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import { hasErrors } from "../helpers";
 
 type TitleProps = {
 	children: React.ReactNode;
@@ -24,13 +25,37 @@ const StyledCard = styled.div<StyledCardProps>`
 interface CardProps extends StyledCardProps {
 	children: React.ReactNode;
 	className: string;
+	errors: ErrorResponse;
 }
 
-export const Card: React.FC<CardProps> = ({ children, className, width }) => (
-	<StyledCard width={width} className={className}>
-		{children}
-	</StyledCard>
-);
+export const Card: React.FC<CardProps> = ({
+	children,
+	className,
+	width,
+	errors
+}) => {
+	const cardRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (hasErrors(errors) && cardRef.current) {
+			cardRef.current.classList.add("error");
+			cardRef.current.classList.add("error-animate");
+			// If the user tries to resubmit again within one second, it is assumed to be a double tap,
+			// and animation should not be played again
+			setTimeout(
+				() =>
+					cardRef.current &&
+					cardRef.current.classList.remove("error-animate"),
+				1000
+			);
+		} else if (cardRef.current) cardRef.current.classList.remove("error");
+	}, [errors]);
+
+	return (
+		<StyledCard ref={cardRef} width={width} className={className}>
+			{children}
+		</StyledCard>
+	);
+};
 
 const StyledError = styled.p`
 	color: crimson;

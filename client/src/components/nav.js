@@ -6,9 +6,12 @@ import Modal from "./modal";
 
 import { isEnterKey } from "../helpers";
 
+// Mui
 import TextField from "@material-ui/core/TextField";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import Tooltip from "@material-ui/core/Tooltip";
 
+// Icons
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
@@ -41,6 +44,7 @@ const StyledIcon = styled.span`
 	}
 `;
 
+// TODO: Add tooltips
 const NoteControls = () => {
 	const { deleteNote, selectedNote, saveNote, shareNote } = useContext(
 		NoteContext
@@ -55,13 +59,15 @@ const NoteControls = () => {
 	};
 	return (
 		<>
-			<StyledIcon
-				className={disabled ? "disabled" : ""}
-				onClick={() => !disabled && setShareOpen(true)}
-				hoverColor="#3498db"
-			>
-				<PersonAddIcon />
-			</StyledIcon>
+			<Tooltip title="Share">
+				<StyledIcon
+					className={disabled ? "disabled" : ""}
+					onClick={() => !disabled && setShareOpen(true)}
+					hoverColor="#3498db"
+				>
+					<PersonAddIcon />
+				</StyledIcon>
+			</Tooltip>
 			<Modal
 				open={shareOpen}
 				title="Share note"
@@ -81,20 +87,24 @@ const NoteControls = () => {
 					fullWidth
 				/>
 			</Modal>
-			<StyledIcon
-				hoverColor="#e74c3c"
-				className={disabled ? "disabled" : ""}
-			>
-				<DeleteIcon onClick={() => !disabled && deleteNote()} />
-			</StyledIcon>
-			<StyledIcon
-				hoverColor="#3498db"
-				className={disabled ? "disabled" : ""}
-			>
-				<SaveIcon
-					onClick={() => !disabled && saveNote(selectedNote.id)}
-				/>
-			</StyledIcon>
+			<Tooltip title="Delete">
+				<StyledIcon
+					hoverColor="#e74c3c"
+					className={disabled ? "disabled" : ""}
+				>
+					<DeleteIcon onClick={() => !disabled && deleteNote()} />
+				</StyledIcon>
+			</Tooltip>
+			<Tooltip title="Save">
+				<StyledIcon
+					hoverColor="#3498db"
+					className={disabled ? "disabled" : ""}
+				>
+					<SaveIcon
+						onClick={() => !disabled && saveNote(selectedNote.id)}
+					/>
+				</StyledIcon>
+			</Tooltip>
 		</>
 	);
 };

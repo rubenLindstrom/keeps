@@ -1,17 +1,19 @@
 const { db, auth, admin } = require("../util/firebase");
-const { isEmail } = require("../util/helpers");
-const { MINIMUM_PASS_LENGTH } = require("../constants");
+const { isEmpty, isEmail, parseError, hasErrors } = require("../util/helpers");
+const { MINIMUM_PASS_LENGTH, errorMessages } = require("../constants");
 
+// TODO: Translate firebase errors
 exports.register = (req, res) => {
 	const { email, password, cPassword } = req.body;
 
 	const errors = {};
-	if (!isEmail(email)) errors.email = "Invalid email";
+	if (!isEmail(email)) errors.email = errorMessages.invalidEmail;
+	if (isEmpty(password)) errors.password = errorMessages.mustNotBeEmpty;
 	if (password.length < MINIMUM_PASS_LENGTH)
-		errors.password = `Password must be at least ${MINIMUM_PASS_LENGTH} characters`;
-	if (password !== cPassword) errors.cPassword = "Passwords must match";
+		errors.password = errorMessages.tooShort;
+	if (password !== cPassword) errors.cPassword = erorrMessages.mustMatch;
 
-	if (Object.keys(errors).length) return res.status(400).json(errors);
+	if (hasErrors(errors)) return res.status(400).json(errors);
 
 	auth.createUser({ email, password })
 		.then((userRecord) => {
@@ -27,18 +29,21 @@ exports.register = (req, res) => {
 		})
 		.catch((error) => {
 			console.error(error);
-			res.status(500).json(error);
+			res.status(500).json({ error: parseError(error) });
 		});
 };
 
 exports.validateToken = (req, res) => {
 	const token = req.body.token;
 	if (!token) {
-		return res.status(403).json({ error: "Unauthorized" });
+		return res.status(403).json({ error: errorMessages.unauthorized });
 	}
 	admin
 		.auth()
 		.verifyIdToken(token)
 		.then(() => res.json({ success: true }))
-		.catch((err) => res.status(403).json(err));
+		.catch((err) => {
+			console.error(err);
+			res.status(403).json({ error: parseError(err) });
+		});
 };

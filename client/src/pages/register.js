@@ -2,10 +2,8 @@ import React, { useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/authContext";
 
-import { isEmail } from "../helpers";
-
 // Components
-import { Title, Card } from "../components/atoms";
+import { Title, Card, Error } from "../components/atoms";
 
 // MUI
 import TextField from "@material-ui/core/TextField";
@@ -35,15 +33,6 @@ const RegisterContainer = ({ history }) => {
 		const pass = refs.pass.current.value;
 		const cPass = refs.cPass.current.value;
 
-		// TODO: Set errors
-		const errors = {};
-
-		if (!isEmail(email)) errors.email = "Email invalid!";
-		if (pass.length < 6) errors.password = "Password too short!";
-		if (pass !== cPass) errors.cPassword = "Passwords do not match";
-
-		if (Object.keys(errors).length) return console.log(errors);
-
 		register(email, pass, cPass);
 	};
 
@@ -52,7 +41,7 @@ const RegisterContainer = ({ history }) => {
 
 const RegisterView = ({ onSubmit, refs, errors }) => {
 	return (
-		<Card className="center" width={300}>
+		<Card className="center" errors={errors} width={300}>
 			<Title>Register</Title>
 			<form onSubmit={onSubmit}>
 				<TextField
@@ -85,6 +74,7 @@ const RegisterView = ({ onSubmit, refs, errors }) => {
 				<Button type="submit" variant="contained" mt={5}>
 					Submit
 				</Button>
+				<Error>{errors.error}</Error>
 				<p>
 					Already have an account?{" "}
 					<Link to="/login">Log in here</Link>

@@ -21,4 +21,6 @@ declare global {
 		text: string;
 		author: string;
 	};
+
+	type ErrorResponse = { [key: string]: string };
 }

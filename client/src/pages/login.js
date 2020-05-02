@@ -53,7 +53,7 @@ const LoginContainer = ({ history }) => {
 };
 
 const LoginView = ({ onSubmit, refs, errors, loading }) => (
-	<Card className="center" width={300}>
+	<Card className="center" errors={errors} width={300}>
 		<Title>Login</Title>
 		<form onSubmit={onSubmit}>
 			<TextField
@@ -76,7 +76,7 @@ const LoginView = ({ onSubmit, refs, errors, loading }) => (
 			<Button type="submit" variant="contained" mt={5}>
 				{loading ? <CircularProgress size={24} /> : "Submit"}
 			</Button>
-			<Error>{errors.general}</Error>
+			<Error>{errors.error}</Error>
 			<p>
 				Don't have an account? <Link to="/register">Register here</Link>
 			</p>

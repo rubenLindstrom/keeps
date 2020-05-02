@@ -1,6 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
+import { errorTranslations, FALLBACK_ERROR_MESSAGE } from "./constants";
 
 export const isEmpty: (str: string) => boolean = (str) => str.length === 0;
+
+export const hasErrors: (err: ErrorResponse) => boolean = (err) =>
+	Object.keys(err).length > 0;
 
 export const isEmail: (email: string) => boolean = (email) =>
 	email.match(
@@ -13,8 +17,36 @@ export const isEmail: (email: string) => boolean = (email) =>
 export const isEnterKey: (e: KeyboardEvent) => boolean = (e) =>
 	e.keyCode === 13 || e.which === 13;
 
+type ServerError = { [key: string]: string };
+type FirebaseClientError = {
+	code: number;
+	message: string;
+};
+
+const errorFields = ["email", "password", "cPassword", "error"];
+export const translateServerError: (err: ServerError) => ErrorResponse = (
+	err: ServerError
+) => {
+	const errors: ErrorResponse = {};
+	errorFields.forEach((key) => {
+		const translation = errorTranslations[err[key]];
+		if (translation) errors[key] = translation;
+	});
+	console.log(errors);
+	console.log(hasErrors(errors));
+	if (!hasErrors(errors)) errors.error = FALLBACK_ERROR_MESSAGE;
+	return errors;
+};
+
+export const translateClientError: (
+	err: FirebaseClientError
+) => ErrorResponse = (err) => {
+	const translation = errorTranslations[err.code];
+	return { error: translation ? translation : FALLBACK_ERROR_MESSAGE };
+};
+
 export const delay: (v: any, t: number) => Promise<any> = (v, t) =>
-	new Promise<Object>((resolve, reject) => {
+	new Promise<Object>((resolve, _) => {
 		setTimeout(() => resolve(v), t);
 	});
 
