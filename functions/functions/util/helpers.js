@@ -14,7 +14,7 @@ exports.isEmail = (email) =>
 
 // TODO: Complement with more Firebase errors
 exports.parseError = (err) => {
-  switch (err.message) {
+  switch (err.code) {
     case "auth/user-not-found":
       return errorMessages.userNotFound;
     case "auth/email-already-exists":
