@@ -161,7 +161,7 @@ main {
 }
 
 .sidebar {
-  background-color: wheat;
+  background-color: #666;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -169,6 +169,8 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
+          box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
   width: 200px;
 }
 
@@ -187,7 +189,7 @@ main {
   display: block;
   background-color: #2980b9;
   cursor: pointer;
-  padding: 0.5em;
+  padding: 0.3em;
   text-align: center;
 }
 

@@ -1,5 +1,7 @@
 const { errorMessages } = require("../constants");
 
+exports.hasErrors = (err) => Object.keys(err).length > 0;
+
 exports.isEmpty = (str) => str.length === 0;
 
 exports.isEmail = (email) =>
