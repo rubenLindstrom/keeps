@@ -16,6 +16,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
 	const [authenticated, setAuthenticated] = useState(null);
+	const [user, setUser] = useState(null);
 	const [errors, setErrors] = useState({});
 	const [loading, setLoading] = useState(false);
 	const location = useLocation();
@@ -27,6 +28,7 @@ const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
+				setUser({ email: user.email, uid: user.uid });
 				auth.currentUser
 					.getIdToken(true)
 					.then((token) => {
@@ -36,7 +38,10 @@ const AuthProvider = ({ children }) => {
 					.then((token) => setToken(token))
 					.then(() => setAuthenticated(true))
 					.catch(() => setAuthenticated(false));
-			} else setAuthenticated(false);
+			} else {
+				setAuthenticated(false);
+				setUser(null);
+			}
 		});
 	}, []);
 
@@ -95,7 +100,15 @@ const AuthProvider = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ authenticated, login, logout, register, errors, loading }}
+			value={{
+				authenticated,
+				user,
+				login,
+				logout,
+				register,
+				errors,
+				loading
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

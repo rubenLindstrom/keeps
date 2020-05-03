@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
-import NoteContext from "../../contexts/noteContext";
 import styled from "styled-components";
+
+import NoteContext from "../../contexts/noteContext";
+import AuthContext from "../../contexts/authContext";
+
+import Collapsible from "react-collapsible";
 
 const Box = styled.div`
 	box-sizing: border-box;
@@ -61,11 +65,34 @@ const Note = ({ title, createdAt, body, id }) => {
 
 const Notes = () => {
 	const { notes } = useContext(NoteContext);
+	const { user } = useContext(AuthContext);
+
+	if (!notes) return <div className="notes"></div>;
+
+	const ownNotes = [];
+	const sharedNotes = [];
+
+	Object.values(notes).forEach((note) =>
+		note.owner === user.uid ? ownNotes.push(note) : sharedNotes.push(note)
+	);
 
 	return (
 		<div className="notes">
-			{notes &&
-				Object.values(notes).map((el) => <Note key={el.id} {...el} />)}
+			{notes && (
+				<>
+					<Collapsible trigger="My notes" open easing="ease-out">
+						{ownNotes.map((el) => (
+							<Note key={el.id} {...el} />
+						))}
+					</Collapsible>
+
+					<Collapsible trigger="Shared notes" open easing="ease-out">
+						{sharedNotes.map((el) => (
+							<Note key={el.id} {...el} />
+						))}
+					</Collapsible>
+				</>
+			)}
 		</div>
 	);
 };

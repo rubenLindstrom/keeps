@@ -38,7 +38,7 @@ const EditorContainer = () => {
 const EditorView = ({ loading, error, value, onChange, noNotes }) => {
 	if (error || loading || noNotes) {
 		let content;
-		if (error) content = <Error>{error}</Error>;
+		if (error) content = <Error>{error.error}</Error>;
 		// TODO: Insert spinner instead
 		else if (loading) content = <p className="big">Fetching notes...</p>;
 		else content = <p className="big">You have no notes :(</p>;
