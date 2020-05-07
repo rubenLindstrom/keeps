@@ -24,8 +24,12 @@ const Modal = ({
         {children}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onAffirmative}>{affirmativeText}</Button>
+        <Button onClick={onClose} variant="outlined" color="secondary">
+          Cancel
+        </Button>
+        <Button onClick={onAffirmative} variant="contained" color="primary">
+          {affirmativeText}
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -64,7 +64,17 @@ const AddNoteView = ({
         onClose={onClose}
         onAffirmative={onSubmit}
         affirmativeText="Add"
-        text="Enter a title for your new note"
+        text={
+          <>
+            Enter a title for your new note
+            <br />{" "}
+            <span style={{ fontSize: "0.8em" }}>
+              For instance:
+              <em> Shopping list, Movies to watch,</em> or
+              <em> Favourite animals</em>!
+            </span>
+          </>
+        }
       >
         <TextField
           autoFocus
@@ -74,14 +84,14 @@ const AddNoteView = ({
           inputRef={inputRef}
           fullWidth
           label="Title"
-          placeholder="Title"
+          placeholder="My new awesome note"
         />
       </Modal>
       <Button
         onClick={onOpen}
         fullWidth
         variant="contained"
-        // className={classes.button}
+        className={classes.button}
       >
         Add note
       </Button>

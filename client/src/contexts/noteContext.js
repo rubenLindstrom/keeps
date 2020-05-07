@@ -79,7 +79,7 @@ const noteReducer = (state, action) => {
       };
 
     case SET_ERROR:
-      return { loading: false, errors: action.payload };
+      return { ...state, loading: false, errors: action.payload };
 
     case CLEAR_STATE:
       return {
