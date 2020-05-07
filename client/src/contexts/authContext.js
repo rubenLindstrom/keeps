@@ -81,7 +81,11 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     doRegister(email, password, cPassword)
       .then(() => login(email, password))
+<<<<<<< HEAD
       .catch((err) => setErrors(translateServerError(err)))
+=======
+      .catch((err) => setErrors(translateServerError(err.response.data)))
+>>>>>>> 13a2b19db191c72ac7590e97f8a15b5a2a1082fa
       .finally(() => setLoading(false));
   };
 

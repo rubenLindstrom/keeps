@@ -15,7 +15,7 @@ import {
   doDeleteNote,
   doShare,
 } from "../services";
-import { isEmail, translateServerError } from "../helpers";
+import { translateServerError } from "../helpers";
 
 const NoteContext = createContext();
 
@@ -135,7 +135,7 @@ const NoteProvider = ({ children }) => {
         dispatch({
           type: SET_ERROR,
           // TODO: Translate error
-          payload: translateServerError(err),
+          payload: translateServerError(err.response.data),
         })
       );
 
