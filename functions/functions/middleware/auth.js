@@ -1,4 +1,5 @@
-const { admin, auth, db } = require("../util/firebase");
+const { admin, db } = require("../util/firebase");
+const { errorMessages } = require("../constants");
 
 module.exports = (req, res, next) => {
   let idToken;
@@ -9,22 +10,21 @@ module.exports = (req, res, next) => {
     idToken = req.headers.authorization.split("Bearer ")[1];
   } else {
     console.error("No token found");
-    return res.status(403).json({ error: "Unauthorized" });
+    return res.status(403).json({ error: errorMessages.unauthorized });
   }
 
   admin
     .auth()
     .verifyIdToken(idToken)
-    .then(decodedToken => {
+    .then((decodedToken) => {
       req.user = decodedToken;
       return db.doc(`/users/${req.user.uid}`).get();
     })
-    .then(res => {
+    .then((res) => {
       req.user.notes = res.data().notes;
-      // req.user.imageUrl = imageUrl;
       return next();
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error while verifying token", err);
       return res.status(403).json({ error: err });
     });
