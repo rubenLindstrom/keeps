@@ -25,10 +25,6 @@ const AuthProvider = ({ children }) => {
         setUser({ email: user.email, uid: user.uid });
         auth.currentUser
           .getIdToken(true)
-          .then((token) => {
-            console.log(token);
-            return token;
-          })
           .then((token) => setToken(token))
           .then(() => setAuthenticated(true))
           .catch(() => setAuthenticated(false));
@@ -54,7 +50,6 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     auth
       .signInWithEmailAndPassword(email, password)
-      .then()
       .catch((err) => {
         setErrors(translateClientError(err));
       })
@@ -81,7 +76,11 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     doRegister(email, password, cPassword)
       .then(() => login(email, password))
-      .catch((err) => setErrors(translateServerError(err.response.data)))
+      .catch((err) => {
+        console.log("ERROR:");
+        console.log(err);
+        setErrors(translateServerError(err.response.data));
+      })
       .finally(() => setLoading(false));
   };
 

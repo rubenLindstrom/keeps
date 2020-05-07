@@ -1,8 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 
 import NoteContext from "../../contexts/noteContext";
-import AuthContext from "../../contexts/authContext";
-import { isEnterKey, isEmail, isEmpty } from "../../helpers";
+import { isEnterKey } from "../../helpers";
 
 import { StyledIcon } from "../atoms";
 import Modal from "../modal";
@@ -13,22 +12,12 @@ import TextField from "@material-ui/core/TextField";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const ShareContainer = React.forwardRef(({ disabled }, ref) => {
-  const { selectedNote, shareNote, errors } = useContext(NoteContext);
-  const { user } = useContext(AuthContext);
+  const { shareNote, errors, clearErrors } = useContext(NoteContext);
   const [open, setOpen] = useState(false);
-  const [ownError, setOwnError] = useState(null);
   const inputRef = useRef();
 
   const handleSubmit = (_) => {
-    const email = inputRef.current.value;
-
-    // TODO: Set error
-    if (disabled) setOwnError("You can't share this note yet");
-    else if (isEmpty(email)) setOwnError("Email can't be empty");
-    else if (!isEmail(email)) setOwnError("Invalid email");
-    else if (selectedNote.owner !== user.uid)
-      setOwnError("You don't have permission to share this note");
-    else shareNote(email).then(handleClose);
+    shareNote(inputRef.current.value).then(handleClose);
   };
 
   const handleOpen = () => {
@@ -36,7 +25,7 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
   };
 
   const handleClose = () => {
-    setOwnError(null);
+    clearErrors();
     inputRef.current.value = "";
     setOpen(false);
   };
@@ -55,7 +44,7 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
       onSubmit={handleSubmit}
       inputRef={inputRef}
       onKeyPress={handleKeyPress}
-      error={ownError || errors.error}
+      error={errors.share}
     />
   );
 });

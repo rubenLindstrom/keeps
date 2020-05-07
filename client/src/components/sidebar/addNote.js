@@ -10,22 +10,18 @@ import Modal from "../modal";
 const AddNoteContainer = () => {
   const inputRef = useRef();
   const [open, setOpen] = useState(false);
-  const [ownError, setOwnError] = useState(null);
-  const { addNote, errors } = useContext(NoteContext);
+  const { addNote, errors, clearErrors } = useContext(NoteContext);
 
   const handleKeyPress = (e) => {
     if (isEnterKey(e)) handleSubmit();
   };
 
-  const handleSubmit = (_) => {
-    const title = inputRef.current.value;
-
-    if (isEmpty(title)) setOwnError("Title can't be empty");
-    else addNote(title).then(handleClose);
+  const handleSubmit = () => {
+    addNote(inputRef.current.value).then(handleClose);
   };
 
   const handleClose = () => {
-    setOwnError(null);
+    clearErrors();
     inputRef.current.value = "";
     setOpen(false);
   };
@@ -38,7 +34,7 @@ const AddNoteContainer = () => {
       onSubmit={handleSubmit}
       inputRef={inputRef}
       onKeyPress={handleKeyPress}
-      error={ownError || errors.error}
+      error={errors.add}
     />
   );
 };

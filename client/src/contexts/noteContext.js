@@ -15,7 +15,7 @@ import {
   doDeleteNote,
   doShare,
 } from "../services";
-import { translateServerError } from "../helpers";
+import { isEmail, isEmpty, translateServerError } from "../helpers";
 
 const NoteContext = createContext();
 
@@ -79,7 +79,7 @@ const noteReducer = (state, action) => {
       };
 
     case SET_ERROR:
-      return { loading: false, error: action.payload };
+      return { loading: false, errors: action.payload };
 
     case CLEAR_STATE:
       return {
@@ -96,7 +96,7 @@ const noteReducer = (state, action) => {
 
 // TODO: Make selectedNote and notes properties of the same object
 const NoteProvider = ({ children }) => {
-  const [note, dispatch] = useReducer(noteReducer, {
+  const [state, dispatch] = useReducer(noteReducer, {
     selectedNote: null,
     errors: {},
     notes: null,
@@ -105,17 +105,17 @@ const NoteProvider = ({ children }) => {
   const [editorValue, setEditorValue] = useState(
     RichTextEditor.createEmptyValue()
   );
-  const { authenticated } = useContext(AuthContext);
+  const { user, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    if (note.selectedNote)
+    if (state.selectedNote)
       setEditorValue(
         RichTextEditor.createValueFromString(
-          note.notes[note.selectedNote].body,
+          state.notes[state.selectedNote].body,
           "html"
         )
       );
-  }, [note.selectedNote]);
+  }, [state.selectedNote]);
 
   useEffect(() => {
     if (authenticated) getNotes();
@@ -139,17 +139,28 @@ const NoteProvider = ({ children }) => {
         })
       );
 
-  const addNote = (title) =>
-    doAddNote(title).then((newNote) =>
-      dispatch({
-        type: ADD_NOTE,
-        payload: newNote,
-      })
-    );
+  const addNote = (title) => {
+    if (isEmpty(title))
+      dispatch({ type: SET_ERROR, payload: { add: "Title can't be empty" } });
+
+    doAddNote(title)
+      .then((newNote) =>
+        dispatch({
+          type: ADD_NOTE,
+          payload: newNote,
+        })
+      )
+      .catch((err) =>
+        dispatch({
+          type: SET_ERROR,
+          payload: translateServerError(err.response.data),
+        })
+      );
+  };
 
   // Spara ej om värdet inte har ändrats
   const selectNote = (id) => {
-    saveNote(note.selectedNote);
+    saveNote(state.selectedNote);
     dispatch({
       type: SELECT_NOTE,
       payload: { id, editorValue },
@@ -158,33 +169,64 @@ const NoteProvider = ({ children }) => {
 
   const saveNote = (id) => {
     const body = editorValue.toString("html");
-    if (note.notes[note.selectedNote].body !== body) doUpdateNote(id, { body });
+    if (state.notes[state.selectedNote].body !== body)
+      doUpdateNote(id, { body });
   };
 
   const deleteNote = () => {
-    if (note.selectedNote) {
-      doDeleteNote(note.selectedNote);
+    if (state.selectedNote) {
+      doDeleteNote(state.selectedNote);
       dispatch({ type: DELETE_NOTE });
     }
   };
 
-  const shareNote = (email) => doShare(email, note.selectedNote);
+  const shareNote = (email) => {
+    if (isEmpty(email))
+      dispatch({
+        type: SET_ERROR,
+        payload: { share: "Email can't be empty" },
+      });
+    else if (!isEmail(email))
+      dispatch({
+        type: SET_ERROR,
+        payload: { share: "Invalid email" },
+      });
+    else if (state.selectedNote.owner !== user.uid)
+      dispatch({
+        type: SET_ERROR,
+        payload: { share: "You don't have permission to share this note" },
+      });
+    return doShare(email, state.selectedNote)
+      .then(() => true)
+      .catch((err) => {
+        dispatch({
+          type: SET_ERROR,
+          payload: translateServerError(err.response.data),
+        });
+        return false;
+      });
+  };
+
+  const clearErrors = () => dispatch({ type: SET_ERROR, payload: {} });
 
   // TODO: Split up into setter and getter state
   return (
     <NoteContext.Provider
       value={{
-        notes: note.notes,
+        notes: state.notes,
         addNote,
-        selectedNote: note.selectedNote ? note.notes[note.selectedNote] : null,
+        selectedNote: state.selectedNote
+          ? state.notes[state.selectedNote]
+          : null,
         selectNote,
-        errors: note.errors,
+        errors: state.errors,
         deleteNote,
         editorValue,
         setEditorValue,
         saveNote,
-        loading: note.loading,
+        loading: state.loading,
         shareNote,
+        clearErrors,
       }}
     >
       {children}

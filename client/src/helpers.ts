@@ -27,14 +27,11 @@ const errorFields = ["email", "password", "cPassword", "error"];
 export const translateServerError: (err: ServerError) => ErrorResponse = (
   err: ServerError
 ) => {
-  console.log("Raw error: ");
-  console.log(err);
   const errors: ErrorResponse = {};
   errorFields.forEach((key) => {
     const translation = errorTranslations[err[key]];
     if (translation) errors[key] = translation;
   });
-  console.log(errors);
   if (!hasErrors(errors)) errors.error = FALLBACK_ERROR_MESSAGE;
   return errors;
 };

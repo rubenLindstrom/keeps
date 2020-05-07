@@ -31,7 +31,11 @@ const App = () => {
 
   return (
     <main style={{ backgroundImage: `url(${bg && bg.url})` }}>
-      {authenticated ? <Dashboard /> : <RegisterLogin quote={quote} bg={bg} />}
+      {authenticated !== null && authenticated ? (
+        <Dashboard />
+      ) : (
+        <RegisterLogin quote={quote} bg={bg} />
+      )}
     </main>
   );
 };

@@ -29,7 +29,10 @@ const RegisterLoginContainer = ({ quote, bg }) => {
   const modeToProps = {
     [MODES.LOGIN]: {
       title: "Login",
-      onSubmit: () => login(emailRef.current.value, passwordRef.current.value),
+      onSubmit: (e) => {
+        e.preventDefault();
+        login(emailRef.current.value, passwordRef.current.value);
+      },
       fields: [
         {
           ref: emailRef,
@@ -58,12 +61,14 @@ const RegisterLoginContainer = ({ quote, bg }) => {
     },
     [MODES.REGISTER]: {
       title: "Register",
-      onSubmit: () =>
+      onSubmit: (e) => {
+        e.preventDefault();
         register(
           emailRef.current.value,
           passwordRef.current.value,
           cPasswordRef.current.value
-        ),
+        );
+      },
       fields: [
         {
           ref: emailRef,

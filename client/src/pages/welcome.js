@@ -4,6 +4,14 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
+const Banner = styled.div`
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 2rem 0;
+  align-self: center;
+`;
+
 const H1 = styled.h1`
   color: #fff;
   font-size: 2.4rem;
@@ -40,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const WelcomeView = ({ onLoginClick, onRegisterClick }) => {
   const classes = useStyles();
   return (
-    <div>
+    <Banner>
       <H1>Welcome to Keeps</H1>
       <H2>The ultimate notekeeping app for social thinkers</H2>
       <ButtonContainer>
@@ -59,7 +67,7 @@ const WelcomeView = ({ onLoginClick, onRegisterClick }) => {
           Register
         </ColoredButton>
       </ButtonContainer>
-    </div>
+    </Banner>
   );
 };
 
