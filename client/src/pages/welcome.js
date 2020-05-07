@@ -1,0 +1,66 @@
+import React from "react";
+import styled from "styled-components";
+
+import Button from "@material-ui/core/Button";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+
+const H1 = styled.h1`
+  color: #fff;
+  font-size: 2.4rem;
+  text-align: center;
+`;
+
+const H2 = styled.h1`
+  color: #fff;
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 300;
+  margin-bottom: 2rem;
+`;
+
+const ButtonContainer = styled.div`
+  text-align: center;
+`;
+
+const ColoredButton = withStyles((theme) => ({
+  root: {
+    borderRadius: "2px",
+    margin: "0.5rem",
+    width: "9rem",
+    fontSize: "1.1rem",
+    color: "#fff",
+  },
+}))(Button);
+
+const useStyles = makeStyles((theme) => ({
+  green: { backgroundColor: "#2ecc71" },
+  red: { backgroundColor: "#e74c3c" },
+}));
+
+const WelcomeView = ({ onLoginClick, onRegisterClick }) => {
+  const classes = useStyles();
+  return (
+    <div>
+      <H1>Welcome to Keeps</H1>
+      <H2>The ultimate notekeeping app for social thinkers</H2>
+      <ButtonContainer>
+        <ColoredButton
+          onClick={onLoginClick}
+          variant="contained"
+          className={classes.green}
+        >
+          Login
+        </ColoredButton>
+        <ColoredButton
+          onClick={onRegisterClick}
+          variant="contained"
+          className={classes.red}
+        >
+          Register
+        </ColoredButton>
+      </ButtonContainer>
+    </div>
+  );
+};
+
+export default WelcomeView;

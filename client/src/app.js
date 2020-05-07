@@ -1,53 +1,39 @@
-import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 
-import InspirationContext from "./contexts/inspirationContext";
+import AuthContext from "./contexts/authContext";
 
 // Pages
 import Dashboard from "./pages/dashboard";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import NotFound from "./pages/notFound";
+import RegisterLogin from "./pages/registerLogin";
 
-import { AuthRoute, UnAuthRoute } from "./components/authRoute";
-import BottomBar from "./components/bottomBar";
+import { getRandomQuote } from "./api/quote";
+import { getRandomImage } from "./api/unsplash";
+
+const BG_THEME = "nature";
 
 const App = () => {
-	const { bg } = useContext(InspirationContext);
+  const [quote, setQuote] = useState(null);
+  const [bg, setBg] = useState(null);
+  const { authenticated } = useContext(AuthContext);
 
-	return (
-		<main
-			style={{
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-				backgroundImage: `url(${bg && bg.url})`,
-				position: "relative"
-			}}
-		>
-			<Switch>
-				<AuthRoute path="/" component={Dashboard} exact />
-				<UnAuthRoute
-					path="/login"
-					render={(props) => (
-						<>
-							<Login {...props} />
-							<BottomBar />
-						</>
-					)}
-				/>
-				<UnAuthRoute
-					path="/register"
-					render={(props) => (
-						<>
-							<Register {...props} />
-							<BottomBar />
-						</>
-					)}
-				/>
-				<Route component={NotFound} />
-			</Switch>
-		</main>
-	);
+  useEffect(() => {
+    const getData = async () => {
+      Promise.all([getRandomQuote(), getRandomImage(BG_THEME)]).then(
+        ([quote, image]) => {
+          setQuote(quote);
+          setBg(image);
+        }
+      );
+    };
+    getData();
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <main style={{ backgroundImage: `url(${bg && bg.url})` }}>
+      {authenticated ? <Dashboard /> : <RegisterLogin quote={quote} bg={bg} />}
+    </main>
+  );
 };
 
 export default App;
