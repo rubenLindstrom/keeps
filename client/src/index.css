@@ -143,6 +143,7 @@ main {
 }
 
 .nav {
+  height: 109px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -211,10 +212,12 @@ main {
       -ms-flex-positive: 1;
           flex-grow: 1;
   overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .editor > div {
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -222,6 +225,9 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .editor > div > div:nth-child(2) {

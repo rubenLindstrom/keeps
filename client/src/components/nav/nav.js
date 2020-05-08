@@ -4,18 +4,19 @@ import Controls from "./controls";
 import logo from "../../images/logo.png";
 
 const Logo = styled.img`
-  width: 185px;
-  height: auto;
-  padding: 0.5rem 0;
+	width: 185px;
+	height: auto;
+	padding: 0.5rem 0;
+	object-fit: contain;
 `;
 
 const nav = () => (
-  <div className="nav">
-    <Logo src={logo} alt="Logo" />
-    <div className="note-controls">
-      <Controls />
-    </div>
-  </div>
+	<div className="nav">
+		<Logo src={logo} alt="Logo" />
+		<div className="note-controls">
+			<Controls />
+		</div>
+	</div>
 );
 
 export default nav;
