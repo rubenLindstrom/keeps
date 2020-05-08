@@ -11,6 +11,7 @@ import WelcomeView from "./welcome";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { COLORS } from "../constants";
 
 const MODES = {
   WELCOME: "WELCOME",
@@ -60,6 +61,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           </span>
         </p>
       ),
+      color: COLORS.GREEN,
     },
     [MODES.REGISTER]: {
       title: "Register",
@@ -101,6 +103,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           </span>
         </p>
       ),
+      color: COLORS.BLUE,
     },
   };
 
@@ -115,7 +118,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
       </div>
     );
   else if (mode === MODES.LOGIN || mode === MODES.REGISTER) {
-    const { title, onSubmit, fields, bottomText } = modeToProps[mode];
+    const { title, onSubmit, fields, bottomText, color } = modeToProps[mode];
     return (
       <>
         <RegisterLoginView
@@ -125,6 +128,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           loading={loading}
           fields={fields}
           bottomText={bottomText}
+          color={color}
         />
         <BottomBar quote={quote} bg={bg} />
       </>
@@ -139,8 +143,9 @@ const RegisterLoginView = ({
   loading,
   fields,
   bottomText,
+  color,
 }) => (
-  <Card className="center" errors={errors} width={300}>
+  <Card className="center" errors={errors} width={300} borderColor={color}>
     <h1>{title}</h1>
     <form onSubmit={onSubmit}>
       {fields.map(({ value, onChange, label, errors, type }) => (
