@@ -47,14 +47,6 @@ to start the devlopment server. :tent:
     ├── index.js.                     # The root react file
     └── services.js.                  # Contains the network related functions
 
-### Tests
-
-The app comes with Jest configured, but the test coverage is currently low. The idea is to complement the app with unit tests as well as some integration tests, to increase confidence when building it out. :microscope:
-
-Tests can be run with
-
-#### `npm test`
-
 ## Cloud functions
 
 To get going with the backend, you can run the following command in the _functions_ directory :zap:
