@@ -10,9 +10,11 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Modal from "../modal";
+import { SpinnerButton } from "../atoms";
 
 const AddNoteContainer = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const { addNote, errors, clearErrors } = useContext(NoteContext);
 
@@ -21,7 +23,10 @@ const AddNoteContainer = () => {
   };
 
   const handleSubmit = () => {
-    addNote(title).then((success) => success && handleClose());
+    setLoading(true);
+    addNote(title)
+      .then((success) => success && handleClose())
+      .finally(() => setLoading(false));
   };
 
   const handleClose = () => {
@@ -40,6 +45,7 @@ const AddNoteContainer = () => {
       onSubmit={handleSubmit}
       onKeyPress={handleKeyPress}
       error={errors.add}
+      loading={loading}
     />
   );
 };
@@ -55,9 +61,9 @@ const AddNoteView = ({
   onOpen,
   onClose,
   onSubmit,
-  inputRef,
   onKeyPress,
   error,
+  loading,
 }) => {
   const classes = useStyles();
 
@@ -69,6 +75,7 @@ const AddNoteView = ({
         onClose={onClose}
         onAffirmative={onSubmit}
         affirmativeText="Add"
+        loading={loading}
         text={
           <>
             Enter a title for your new note
@@ -99,7 +106,7 @@ const AddNoteView = ({
         variant="contained"
         className={classes.button}
       >
-        Add note
+        Add Note
       </Button>
     </>
   );

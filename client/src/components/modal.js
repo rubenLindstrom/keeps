@@ -7,6 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 
+import { SpinnerButton } from "./atoms";
+
 const Modal = ({
   open,
   title,
@@ -15,6 +17,7 @@ const Modal = ({
   onClose,
   onAffirmative,
   affirmativeText,
+  loading,
 }) => {
   return (
     <Dialog open={open} onClose={onClose}>
@@ -27,9 +30,15 @@ const Modal = ({
         <Button onClick={onClose} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button onClick={onAffirmative} variant="contained" color="primary">
+        <SpinnerButton
+          onClick={onAffirmative}
+          color="primary"
+          spinnerColor="white"
+          loading={loading}
+          size={16}
+        >
           {affirmativeText}
-        </Button>
+        </SpinnerButton>
       </DialogActions>
     </Dialog>
   );
