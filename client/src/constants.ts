@@ -3,6 +3,7 @@ export const PASSWORD_MIN_LENGTH = 6;
 export const COLORS = {
   GREEN: "#2ecc71",
   RED: "#e74c3c",
+  BLUE: "#3498db",
 };
 
 const firebaseMessages = {

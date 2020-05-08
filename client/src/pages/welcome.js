@@ -43,7 +43,7 @@ const ColoredButton = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   green: { backgroundColor: COLORS.GREEN },
-  red: { backgroundColor: COLORS.RED },
+  blue: { backgroundColor: COLORS.BLUE },
 }));
 
 const WelcomeView = ({ onLoginClick, onRegisterClick }) => {
@@ -63,7 +63,7 @@ const WelcomeView = ({ onLoginClick, onRegisterClick }) => {
         <ColoredButton
           onClick={onRegisterClick}
           variant="contained"
-          className={classes.red}
+          className={classes.blue}
         >
           Register
         </ColoredButton>
