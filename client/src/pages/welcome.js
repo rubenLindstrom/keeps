@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { COLORS } from "../constants";
 import Button from "@material-ui/core/Button";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -41,8 +42,8 @@ const ColoredButton = withStyles((theme) => ({
 }))(Button);
 
 const useStyles = makeStyles((theme) => ({
-  green: { backgroundColor: "#2ecc71" },
-  red: { backgroundColor: "#e74c3c" },
+  green: { backgroundColor: COLORS.GREEN },
+  red: { backgroundColor: COLORS.RED },
 }));
 
 const WelcomeView = ({ onLoginClick, onRegisterClick }) => {

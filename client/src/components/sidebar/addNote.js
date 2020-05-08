@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
+
 import NoteContext from "../../contexts/noteContext";
 import { isEnterKey } from "../../helpers";
+import { COLORS } from "../../constants";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -42,7 +44,7 @@ const AddNoteContainer = () => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  button: { backgroundColor: "#2ecc71", color: "#fff" },
+  button: { backgroundColor: COLORS.GREEN, color: "#fff" },
 }));
 
 const AddNoteView = ({
