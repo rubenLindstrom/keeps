@@ -7,7 +7,9 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 const Banner = styled.div`
   background: rgba(0, 0, 0, 0.3);
-  width: 100vw;
+  width: 500px;
+  max-width: 100vw;
+  border-radius: 14px;
   box-sizing: border-box;
   padding: 2rem 0;
   align-self: center;
