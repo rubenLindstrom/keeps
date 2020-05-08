@@ -42,7 +42,9 @@ const P = styled.p`
 
   &.date {
     font-size: 0.8rem;
+    margin-left: 0.1rem;
     color: #333;
+    white-space: nowrap;
   }
 `;
 

@@ -10,10 +10,12 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Modal from "../modal";
+import { SpinnerButton } from "../atoms";
 
 const AddNoteContainer = () => {
-  const inputRef = useRef();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
   const { addNote, errors, clearErrors } = useContext(NoteContext);
 
   const handleKeyPress = (e) => {
@@ -21,24 +23,29 @@ const AddNoteContainer = () => {
   };
 
   const handleSubmit = () => {
-    addNote(inputRef.current.value).then((success) => success && handleClose());
+    setLoading(true);
+    addNote(title)
+      .then((success) => success && handleClose())
+      .finally(() => setLoading(false));
   };
 
   const handleClose = () => {
     clearErrors();
-    inputRef.current.value = "";
+    setTitle("");
     setOpen(false);
   };
 
   return (
     <AddNoteView
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
       open={open}
       onOpen={() => setOpen(true)}
       onClose={handleClose}
       onSubmit={handleSubmit}
-      inputRef={inputRef}
       onKeyPress={handleKeyPress}
       error={errors.add}
+      loading={loading}
     />
   );
 };
@@ -48,13 +55,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddNoteView = ({
+  value,
+  onChange,
   open,
   onOpen,
   onClose,
   onSubmit,
-  inputRef,
   onKeyPress,
   error,
+  loading,
 }) => {
   const classes = useStyles();
 
@@ -66,6 +75,7 @@ const AddNoteView = ({
         onClose={onClose}
         onAffirmative={onSubmit}
         affirmativeText="Add"
+        loading={loading}
         text={
           <>
             Enter a title for your new note
@@ -79,11 +89,12 @@ const AddNoteView = ({
         }
       >
         <TextField
+          value={value}
+          onChange={onChange}
           autoFocus
           error={error && true}
           helperText={error}
           onKeyPress={onKeyPress}
-          inputRef={inputRef}
           fullWidth
           label="Title"
           placeholder="My new awesome note"
@@ -95,7 +106,7 @@ const AddNoteView = ({
         variant="contained"
         className={classes.button}
       >
-        Add note
+        Add Note
       </Button>
     </>
   );

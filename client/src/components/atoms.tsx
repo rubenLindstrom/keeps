@@ -2,12 +2,24 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { hasErrors } from "../helpers";
 
-type TitleProps = {
-  children: React.ReactNode;
-};
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-export const Title: React.FC<TitleProps> = ({ children }) => (
-  <h1>{children}</h1>
+export const SpinnerButton: React.FC<{
+  loading: boolean;
+  children: React.ReactNode;
+  spinnerColor?: string;
+  size?: number;
+}> = ({ loading, children, spinnerColor, size, ...rest }) => (
+  <Button type="submit" variant="contained" {...rest}>
+    {loading ? (
+      <span style={{ color: spinnerColor ? spinnerColor : "initial" }}>
+        <CircularProgress color={"inherit"} size={size ? size : 24} />
+      </span>
+    ) : (
+      children
+    )}
+  </Button>
 );
 
 interface StyledCardProps {
@@ -61,18 +73,10 @@ const StyledError = styled.p`
   font-weight: bold;
 `;
 
-type ErrorProps = {
-  children: React.ReactNode;
-};
-
-export const Error: React.FC<ErrorProps> = ({ children }) =>
+export const Error: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   children ? <StyledError>{children}</StyledError> : null;
 
-type StyledIconProps = {
-  hoverColor: string;
-};
-
-export const StyledIcon = styled.span<StyledIconProps>`
+export const StyledIcon = styled.span<{ hoverColor: string }>`
   transition: color 0.2s ease;
   margin: 0 0.25rem;
   svg {

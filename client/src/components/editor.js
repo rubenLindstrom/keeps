@@ -12,6 +12,9 @@ import NoteContext from "../contexts/noteContext";
 
 import AddNote from "./sidebar/addNote";
 import { Error } from "./atoms";
+import EditableText from "./editableText";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const EditorContainer = () => {
   const {
@@ -21,6 +24,7 @@ const EditorContainer = () => {
     editorValue,
     setEditorValue,
     saveNote,
+    updateTitle,
   } = useContext(NoteContext);
 
   const inputRef = useRef();
@@ -50,12 +54,15 @@ const EditorContainer = () => {
         onChange={setEditorValue}
         inputRef={inputRef}
         onClick={focusEditor}
+        title={selectedNote && selectedNote.title}
+        updateTitle={updateTitle}
       />
     </div>
   );
 };
 
 const Wrapper = styled.div`
+  background: linear-gradient(to right bottom, #eff 25%, #eef);
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -86,7 +93,7 @@ const Wrapper = styled.div`
 
 const NoNotes = () => (
   <Wrapper>
-    <img src={CountingStars} />
+    <img src={AddDocument} />
     <p>You have no notes! How about we fix that?</p>
     <span>
       <AddNote />
@@ -109,25 +116,34 @@ const EditorView = ({
   noNotes,
   inputRef,
   onClick,
+  title,
+  updateTitle,
 }) => {
   if (error || loading || noNotes) {
     let content;
     if (error) content = <ErrorMessage error={error.error} />;
-    // TODO: Insert spinner instead
-    else if (loading) content = <p className="big">Fetching notes...</p>;
+    else if (loading)
+      content = (
+        <Wrapper>
+          <CircularProgress size={70} />
+        </Wrapper>
+      );
     else content = <NoNotes />;
-    return <div style={{ padding: "1rem" }}>{content}</div>;
+    return content;
   }
 
   return (
-    <RichTextEditor
-      ref={inputRef}
-      autoFocus
-      value={value}
-      onChange={onChange}
-      placeholder="Start editing your note here..."
-      onClick={onClick}
-    />
+    <>
+      <EditableText save={updateTitle}>{title}</EditableText>
+      <RichTextEditor
+        ref={inputRef}
+        autoFocus
+        value={value}
+        onChange={onChange}
+        placeholder="Start editing your note here..."
+        onClick={onClick}
+      />
+    </>
   );
 };
 

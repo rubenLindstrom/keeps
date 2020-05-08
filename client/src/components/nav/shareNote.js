@@ -15,11 +15,15 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
   const { shareNote, errors, clearErrors } = useContext(NoteContext);
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = () => {
-    shareNote(email).then((success) => {
-      success && handleClose();
-    });
+    setLoading(true);
+    shareNote(email)
+      .then((success) => {
+        success && handleClose();
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleOpen = () => {
@@ -47,6 +51,7 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
       onSubmit={handleSubmit}
       onKeyPress={handleKeyPress}
       error={errors.share}
+      loading={loading}
     />
   );
 });
@@ -63,6 +68,7 @@ const ShareView = React.forwardRef(
       onSubmit,
       onKeyPress,
       error,
+      loading,
     },
     ref
   ) => (
@@ -80,6 +86,7 @@ const ShareView = React.forwardRef(
         onClose={onClose}
         onAffirmative={onSubmit}
         affirmativeText="Share"
+        loading={loading}
         text={
           <>
             Invite some friends you would like to share <br /> this note with!

@@ -2,7 +2,7 @@
 
 body,
 html {
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
 }
 
@@ -67,7 +67,9 @@ main {
 }
 
 .nav {
+  height: 109px;
   display: flex;
+  position: relative;
   color: #fff;
   padding-right: 2rem;
   justify-content: space-between;
@@ -81,11 +83,13 @@ main {
 }
 
 .sidebar {
-  background-color: #666;
+  border-right: 2px groove #666;
+  background: linear-gradient(150deg, #666 10%, #999);
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
   width: 200px;
+  z-index: 2;
 
   .notes {
     flex: 1;
@@ -112,25 +116,53 @@ main {
   }
 }
 
+.hamburger {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .sidebar {
+    width: 0px;
+    overflow: hidden;
+    transition: width 0.5s ease-out;
+    border: none;
+
+    &.open {
+      width: 200px;
+      border-right: 2px groove #666;
+    }
+  }
+
+  .hamburger {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 5px;
+    color: #fff;
+    display: block;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 .editor {
-  background: linear-gradient(to right bottom, #eff 25%, #eef);
   flex-grow: 1;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
 
   // Wrapper div
   > div {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    flex: 1;
     // RTE Containing div
     > div:nth-child(2) {
       overflow: auto;
     }
   }
-}
-
-.sidebar {
-  border-right: 2px groove #666;
 }
 
 .center {

@@ -9,7 +9,7 @@ body {
 
 body,
 html {
-  padding: 0;
+  padding: 0 !important;
   margin: 0;
 }
 
@@ -143,9 +143,11 @@ main {
 }
 
 .nav {
+  height: 109px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
   color: #fff;
   padding-right: 2rem;
   -webkit-box-pack: justify;
@@ -165,7 +167,8 @@ main {
 }
 
 .sidebar {
-  background-color: #666;
+  border-right: 2px groove #666;
+  background: linear-gradient(150deg, #666 10%, #999);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -176,6 +179,7 @@ main {
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
           box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
   width: 200px;
+  z-index: 2;
 }
 
 .sidebar .notes {
@@ -204,17 +208,40 @@ main {
   background-color: #666;
 }
 
+.hamburger {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .sidebar {
+    width: 0px;
+    overflow: hidden;
+    -webkit-transition: width 0.5s ease-out;
+    transition: width 0.5s ease-out;
+    border: none;
+  }
+  .sidebar.open {
+    width: 200px;
+    border-right: 2px groove #666;
+  }
+  .hamburger {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 5px;
+    color: #fff;
+    display: block;
+  }
+  .hamburger:hover {
+    cursor: pointer;
+  }
+}
+
 .editor {
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(25%, #eff), to(#eef));
-  background: linear-gradient(to right bottom, #eff 25%, #eef);
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   overflow: hidden;
-}
-
-.editor > div {
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -222,14 +249,24 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  background-color: #fff;
+}
+
+.editor > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .editor > div > div:nth-child(2) {
   overflow: auto;
-}
-
-.sidebar {
-  border-right: 2px groove #666;
 }
 
 .center {

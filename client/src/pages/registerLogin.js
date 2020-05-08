@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../contexts/authContext";
 
 // Components
-import { Title, Card, Error } from "../components/atoms";
+import { Card, Error, SpinnerButton } from "../components/atoms";
 import BottomBar from "../components/bottomBar";
 import WelcomeView from "./welcome";
 
@@ -141,7 +141,7 @@ const RegisterLoginView = ({
   bottomText,
 }) => (
   <Card className="center" errors={errors} width={300}>
-    <Title>{title}</Title>
+    <h1>{title}</h1>
     <form onSubmit={onSubmit}>
       {fields.map(({ value, onChange, label, errors, type }) => (
         <TextField
@@ -158,9 +158,9 @@ const RegisterLoginView = ({
       ))}
       <br />
       <br />
-      <Button type="submit" variant="contained" mt={5}>
-        {loading ? <CircularProgress size={24} /> : "Submit"}
-      </Button>
+      <SpinnerButton type="submit" mt={5} loading={loading}>
+        Submit
+      </SpinnerButton>
       <Error>{errors.error}</Error>
       {bottomText}
     </form>
