@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "keeps-81a16"
+    "default": "keeps-81a16",
+    "main": "keeps-81a16"
   }
 }

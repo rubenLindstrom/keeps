@@ -2,77 +2,141 @@
 
 body,
 html {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 main {
-	height: 100vh;
-	display: flex;
+  height: 100vh;
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.error {
+  border: 1px solid rgba(255, 0, 0, 0.8);
+  box-shadow: 0 0 8px red !important;
+
+  &.error-animate {
+    animation: shake 0.5s;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
 }
 
 .inner-wrapper {
-	position: relative;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .nav {
-	display: flex;
-	color: #fff;
-	padding: 0 2rem;
-	justify-content: space-between;
-	background: url("./images/space-bg.jpg") center/cover no-repeat;
+  display: flex;
+  color: #fff;
+  padding-right: 2rem;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.2);
 
-	.note-controls {
-		display: flex;
-		align-items: center;
-		margin-right: 1rem;
-	}
+  .note-controls {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+  }
 }
 
 .sidebar {
-	background-color: wheat;
-	display: flex;
-	flex-direction: column;
-	width: 200px;
+  background-color: #666;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
+  width: 200px;
 
-	.notes {
-		flex: 1;
-		overflow-y: auto;
-	}
+  .notes {
+    flex: 1;
+    overflow-y: auto;
+
+    .Collapsible {
+      border-bottom: 2px solid #333;
+
+      .Collapsible__trigger {
+        display: block;
+        background-color: #2980b9;
+        cursor: pointer;
+        padding: 0.3em;
+        text-align: center;
+      }
+
+      .notes::after {
+        content: "";
+        display: block;
+        height: 2px;
+        background-color: #666;
+      }
+    }
+  }
 }
 
 .editor {
-	background-color: #fff;
-	flex-grow: 1;
-	overflow: hidden;
+  background: linear-gradient(to right bottom, #eff 25%, #eef);
+  flex-grow: 1;
+  overflow: hidden;
 
-	// Wrapper div
-	> div {
-		height: 100%;
-		// RTE Containing div
-		> div {
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			box-sizing: border-box;
-			> div:nth-child(2) {
-				overflow: auto;
-			}
-		}
-	}
+  // Wrapper div
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // RTE Containing div
+    > div:nth-child(2) {
+      overflow: auto;
+    }
+  }
 }
 
 .sidebar {
-	border-right: 2px groove #666;
+  border-right: 2px groove #666;
 }
 
 .center {
-	margin: auto;
+  margin: auto;
 }
 
 .share-input {
-	border-color: #fff;
+  border-color: #fff;
 }

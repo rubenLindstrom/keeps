@@ -1,41 +1,104 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
+
 import NoteContext from "../../contexts/noteContext";
-import { isEmpty, isEnterKey } from "../../helpers";
+import { isEnterKey } from "../../helpers";
+import { COLORS } from "../../constants";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-const AddNote = () => {
-  const inputRef = useRef();
-  const { addNote } = useContext(NoteContext);
+import { makeStyles } from "@material-ui/core/styles";
 
-  const doAddNote = e => {
-    const title = inputRef.current.value;
-    // TODO: Set error
-    if (isEmpty(title)) return;
-    addNote(title);
-    inputRef.current.value = "";
+import Modal from "../modal";
+
+const AddNoteContainer = () => {
+  const inputRef = useRef();
+  const [open, setOpen] = useState(false);
+  const { addNote, errors, clearErrors } = useContext(NoteContext);
+
+  const handleKeyPress = (e) => {
+    if (isEnterKey(e)) handleSubmit();
   };
 
-  const handleKeyPress = e => {
-    if (isEnterKey(e)) doAddNote();
+  const handleSubmit = () => {
+    addNote(inputRef.current.value).then((success) => success && handleClose());
+  };
+
+  const handleClose = () => {
+    clearErrors();
+    inputRef.current.value = "";
+    setOpen(false);
   };
 
   return (
-    <div className="add-note">
-      <TextField
-        onKeyPress={handleKeyPress}
-        inputRef={inputRef}
-        fullWidth
-        placeholder="Title"
-      />
-      <div>
-        <Button onClick={doAddNote} fullWidth variant="contained">
-          Add note
-        </Button>
-      </div>
-    </div>
+    <AddNoteView
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={handleClose}
+      onSubmit={handleSubmit}
+      inputRef={inputRef}
+      onKeyPress={handleKeyPress}
+      error={errors.add}
+    />
   );
 };
 
-export default AddNote;
+const useStyles = makeStyles((theme) => ({
+  button: { backgroundColor: COLORS.GREEN, color: "#fff" },
+}));
+
+const AddNoteView = ({
+  open,
+  onOpen,
+  onClose,
+  onSubmit,
+  inputRef,
+  onKeyPress,
+  error,
+}) => {
+  const classes = useStyles();
+
+  return (
+    <>
+      <Modal
+        open={open}
+        title="Add Note"
+        onClose={onClose}
+        onAffirmative={onSubmit}
+        affirmativeText="Add"
+        text={
+          <>
+            Enter a title for your new note
+            <br />{" "}
+            <span style={{ fontSize: "0.8em" }}>
+              For instance:
+              <em> Shopping list, Movies to watch,</em> or
+              <em> Favourite animals</em>!
+            </span>
+          </>
+        }
+      >
+        <TextField
+          autoFocus
+          error={error && true}
+          helperText={error}
+          onKeyPress={onKeyPress}
+          inputRef={inputRef}
+          fullWidth
+          label="Title"
+          placeholder="My new awesome note"
+        />
+      </Modal>
+      <Button
+        onClick={onOpen}
+        fullWidth
+        variant="contained"
+        className={classes.button}
+      >
+        Add note
+      </Button>
+    </>
+  );
+};
+
+export default AddNoteContainer;

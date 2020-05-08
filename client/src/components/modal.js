@@ -5,31 +5,34 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 const Modal = ({
-	open,
-	title,
-	children,
-	onClose,
-	onAffirmative,
-	affirmativeText
+  open,
+  title,
+  children,
+  text,
+  onClose,
+  onAffirmative,
+  affirmativeText,
 }) => {
-	return (
-		<Dialog open={open} onClose={onClose}>
-			<DialogTitle>{title}</DialogTitle>
-			<DialogContent>{children}</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose}>Cancel</Button>
-				<Button
-					onClick={() =>
-						(async () => onAffirmative())().then(onClose)
-					}
-				>
-					{affirmativeText}
-				</Button>
-			</DialogActions>
-		</Dialog>
-	);
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        {text && <DialogContentText>{text}</DialogContentText>}
+        {children}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} variant="outlined" color="secondary">
+          Cancel
+        </Button>
+        <Button onClick={onAffirmative} variant="contained" color="primary">
+          {affirmativeText}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 export default Modal;

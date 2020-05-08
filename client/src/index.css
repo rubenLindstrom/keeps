@@ -18,6 +18,114 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.error {
+  border: 1px solid rgba(255, 0, 0, 0.8);
+  -webkit-box-shadow: 0 0 8px red !important;
+          box-shadow: 0 0 8px red !important;
+}
+
+.error.error-animate {
+  -webkit-animation: shake 0.5s;
+          animation: shake 0.5s;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    -webkit-transform: translate(1px, 1px) rotate(0deg);
+            transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+            transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    -webkit-transform: translate(-3px, 0px) rotate(1deg);
+            transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    -webkit-transform: translate(3px, 2px) rotate(0deg);
+            transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    -webkit-transform: translate(1px, -1px) rotate(1deg);
+            transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+            transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    -webkit-transform: translate(-3px, 1px) rotate(0deg);
+            transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    -webkit-transform: translate(3px, 1px) rotate(-1deg);
+            transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    -webkit-transform: translate(-1px, -1px) rotate(1deg);
+            transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    -webkit-transform: translate(1px, 2px) rotate(0deg);
+            transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(1px, -2px) rotate(-1deg);
+            transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+@keyframes shake {
+  0% {
+    -webkit-transform: translate(1px, 1px) rotate(0deg);
+            transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+            transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    -webkit-transform: translate(-3px, 0px) rotate(1deg);
+            transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    -webkit-transform: translate(3px, 2px) rotate(0deg);
+            transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    -webkit-transform: translate(1px, -1px) rotate(1deg);
+            transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+            transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    -webkit-transform: translate(-3px, 1px) rotate(0deg);
+            transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    -webkit-transform: translate(3px, 1px) rotate(-1deg);
+            transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    -webkit-transform: translate(-1px, -1px) rotate(1deg);
+            transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    -webkit-transform: translate(1px, 2px) rotate(0deg);
+            transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(1px, -2px) rotate(-1deg);
+            transform: translate(1px, -2px) rotate(-1deg);
+  }
 }
 
 .inner-wrapper {
@@ -39,11 +147,11 @@ main {
   display: -ms-flexbox;
   display: flex;
   color: #fff;
-  padding: 0 2rem;
+  padding-right: 2rem;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  background: url("./images/space-bg.jpg") center/cover no-repeat;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .nav .note-controls {
@@ -57,7 +165,7 @@ main {
 }
 
 .sidebar {
-  background-color: wheat;
+  background-color: #666;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -65,6 +173,8 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
+          box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
   width: 200px;
 }
 
@@ -75,8 +185,28 @@ main {
   overflow-y: auto;
 }
 
+.sidebar .notes .Collapsible {
+  border-bottom: 2px solid #333;
+}
+
+.sidebar .notes .Collapsible .Collapsible__trigger {
+  display: block;
+  background-color: #2980b9;
+  cursor: pointer;
+  padding: 0.3em;
+  text-align: center;
+}
+
+.sidebar .notes .Collapsible .notes::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: #666;
+}
+
 .editor {
-  background-color: #fff;
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(25%, #eff), to(#eef));
+  background: linear-gradient(to right bottom, #eff 25%, #eef);
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -85,10 +215,6 @@ main {
 
 .editor > div {
   height: 100%;
-}
-
-.editor > div > div {
-  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -96,11 +222,9 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
 }
 
-.editor > div > div > div:nth-child(2) {
+.editor > div > div:nth-child(2) {
   overflow: auto;
 }
 

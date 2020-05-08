@@ -7,16 +7,14 @@ import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./contexts/authContext";
 import { NoteProvider } from "./contexts/noteContext";
 
-import { BrowserRouter as Router } from "react-router-dom";
-
 ReactDOM.render(
-  <Router>
+  <>
     <AuthProvider>
       <NoteProvider>
         <App />
       </NoteProvider>
     </AuthProvider>
-  </Router>,
+  </>,
   document.getElementById("root")
 );
 
