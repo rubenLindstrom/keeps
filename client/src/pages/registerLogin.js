@@ -158,7 +158,7 @@ const RegisterLoginView = ({
       ))}
       <br />
       <br />
-      <SpinnerButton type="submit" mt={5}>
+      <SpinnerButton type="submit" mt={5} loading={loading}>
         Submit
       </SpinnerButton>
       <Error>{errors.error}</Error>

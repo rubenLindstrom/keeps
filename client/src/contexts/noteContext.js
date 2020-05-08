@@ -26,9 +26,10 @@ const SELECT_NOTE = "SELECT_NOTE";
 const DELETE_NOTE = "DELETE_NOTE";
 const SET_ERROR = "SET_ERROR";
 const CLEAR_STATE = "CLEAR_STATE";
+const UPDATE_TITLE = "UPDATE_TITLE";
 
 const noteReducer = (state, action) => {
-  let newNotes;
+  let newNotes, newNote;
   switch (action.type) {
     case SET_NOTES:
       return {
@@ -45,7 +46,7 @@ const noteReducer = (state, action) => {
       };
     case SELECT_NOTE:
       newNotes = { ...state.notes };
-      const newNote = { ...newNotes[state.selectedNote] };
+      newNote = { ...newNotes[state.selectedNote] };
       newNote.body = action.payload.editorValue.toString("html");
       newNotes[state.selectedNote] = newNote;
       return {
@@ -79,6 +80,14 @@ const noteReducer = (state, action) => {
         selectedNote: newSelectedNote,
       };
 
+    case UPDATE_TITLE:
+      newNote = {
+        ...state.notes[state.selectedNote],
+        title: action.payload,
+      };
+      state.notes[state.selectedNote] = newNote;
+      return { ...state };
+
     case SET_ERROR:
       return { ...state, loading: false, errors: action.payload };
 
@@ -109,13 +118,12 @@ const NoteProvider = ({ children }) => {
   const [shareLoading, setShareLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
 
+  const getSelectedNote = () => state.notes[state.selectedNote];
+
   useEffect(() => {
     if (state.selectedNote)
       setEditorValue(
-        RichTextEditor.createValueFromString(
-          state.notes[state.selectedNote].body,
-          "html"
-        )
+        RichTextEditor.createValueFromString(getSelectedNote().body, "html")
       );
   }, [state.selectedNote]);
 
@@ -184,15 +192,30 @@ const NoteProvider = ({ children }) => {
     });
   };
 
+  const updateTitle = (title) => {
+    if (isEmpty(title)) return;
+    else if (title === getSelectedNote().title) return;
+    return doUpdateNote(state.selectedNote, { title }).then(() => {
+      toast.info(
+        <span>
+          <em>{getSelectedNote().title}</em> <strong> renamed!</strong>
+        </span>
+      );
+      dispatch({
+        type: UPDATE_TITLE,
+        payload: title,
+      });
+    });
+  };
+
   const saveNote = (id) => {
     const body = editorValue.toString("html");
-    if (state.notes[state.selectedNote].body !== body)
+    if (getSelectedNote().body !== body)
       doUpdateNote(id, { body })
         .then(() =>
           toast.info(
             <span>
-              <em>{state.notes[state.selectedNote].title}</em>{" "}
-              <strong> saved!</strong>
+              <em>{getSelectedNote().title}</em> <strong> saved!</strong>
             </span>
           )
         )
@@ -204,8 +227,7 @@ const NoteProvider = ({ children }) => {
       doDeleteNote(state.selectedNote);
       toast.error(
         <span>
-          <em>{state.notes[state.selectedNote].title}</em>{" "}
-          <strong>deleted!</strong>
+          <em>{getSelectedNote().title}</em> <strong>deleted!</strong>
         </span>
       );
       dispatch({ type: DELETE_NOTE });
@@ -219,7 +241,7 @@ const NoteProvider = ({ children }) => {
     const validation = {};
     if (isEmpty(email)) validation.share = "Email can't be empty";
     else if (!isEmail(email)) validation.share = "Invalid email";
-    else if (state.notes[state.selectedNote].owner !== user.uid)
+    else if (getSelectedNote().owner !== user.uid)
       validation.share = "You don't have permission to share this note";
 
     if (hasErrors(validation)) {
@@ -235,8 +257,7 @@ const NoteProvider = ({ children }) => {
       .then(() => {
         toast.success(
           <span>
-            <em>{state.notes[state.selectedNote].title}</em> shared with {email}
-            !
+            <em>{getSelectedNote().title}</em> shared with {email}!
           </span>
         );
         return true;
@@ -262,9 +283,7 @@ const NoteProvider = ({ children }) => {
       value={{
         notes: state.notes,
         addNote,
-        selectedNote: state.selectedNote
-          ? state.notes[state.selectedNote]
-          : null,
+        selectedNote: state.selectedNote ? getSelectedNote() : null,
         selectNote,
         errors: state.errors,
         deleteNote,
@@ -274,6 +293,7 @@ const NoteProvider = ({ children }) => {
         loading: state.loading,
         shareNote,
         clearErrors,
+        updateTitle,
       }}
     >
       {children}

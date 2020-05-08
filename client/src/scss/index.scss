@@ -147,10 +147,11 @@ main {
 }
 
 .editor {
-  background: linear-gradient(to right bottom, #eff 25%, #eef);
   flex-grow: 1;
   overflow: hidden;
   display: flex;
+  flex-direction: column;
+  background-color: #fff;
 
   // Wrapper div
   > div {
