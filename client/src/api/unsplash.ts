@@ -21,7 +21,7 @@ export const getRandomImage: (query: string) => Promise<BG> = (query) =>
         .getRandomPhoto({ query, count: 1, orientation: "landscape" })
         .then(toJson)
         .then((json) => {
-          console.log(json);
+          // console.log(json);
           const { urls, user, links } = json[0];
           return {
             highResUrl: urls.full,

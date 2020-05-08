@@ -59,14 +59,14 @@ const noteReducer = (state, action) => {
       const oldSelectedNote = state.selectedNote;
       const oldNotes = { ...state.notes };
 
-      // 1. Ta bort delete:ad note
+      // 1. Remove deleted note
       const newKeys = oldKeys.filter((id) => id !== oldSelectedNote);
       newNotes = newKeys.reduce(
         (acc, key) => ({ [key]: { ...oldNotes[key] }, ...acc }),
         {}
       );
 
-      // 2. Uppdatera selectedNote
+      // 2. Update selectedNote
       let newSelectedNote;
       if (newKeys.length === 0) newSelectedNote = null;
       else if (oldIndex > newKeys.length - 1)
@@ -95,7 +95,6 @@ const noteReducer = (state, action) => {
   }
 };
 
-// TODO: Make selectedNote and notes properties of the same object
 const NoteProvider = ({ children }) => {
   const [state, dispatch] = useReducer(noteReducer, {
     selectedNote: null,
@@ -137,7 +136,6 @@ const NoteProvider = ({ children }) => {
       .catch((err) =>
         dispatch({
           type: SET_ERROR,
-          // TODO: Translate error
           payload: translateServerError(err.response.data),
         })
       );

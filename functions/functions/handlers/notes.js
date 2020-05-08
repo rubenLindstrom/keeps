@@ -1,5 +1,5 @@
 const { db } = require("../util/firebase");
-const { isEmail, parseError } = require("../util/helpers");
+const { isEmail, isEmpty, parseError } = require("../util/helpers");
 const { errorMessages } = require("../constants");
 
 // TODO: Validation
@@ -30,7 +30,9 @@ exports.addNote = (req, res) => {
   const { title } = req.body;
   const { notes, uid } = req.user;
 
-  // TODO: Validate
+  if (isEmpty(title))
+    return res.status(400).json({ error: errorMessages.mustNotBeEmpty });
+
   const newNote = {
     title,
     body: "",
@@ -81,7 +83,6 @@ exports.deleteNote = (req, res) => {
   const notes = req.user.notes;
   const uid = req.user.uid;
 
-  // Validation
   if (!notes.includes(id))
     return res.status(403).json({ error: errorMessages.unauthorized });
 

@@ -77,8 +77,6 @@ const AuthProvider = ({ children }) => {
     doRegister(email, password, cPassword)
       .then(() => login(email, password))
       .catch((err) => {
-        console.log("ERROR:");
-        console.log(err);
         setErrors(translateServerError(err.response.data));
       })
       .finally(() => setLoading(false));

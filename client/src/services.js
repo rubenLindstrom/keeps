@@ -11,7 +11,7 @@ const axios = Axios.create({
 
 axios.interceptors.request.use(
   (req) => {
-    console.log(req);
+    // console.log(req);
     return req;
   },
   (error) => {
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
 );
 axios.interceptors.response.use(
   (res) => {
-    console.log(res);
+    // console.log(res);
     return res;
   },
   (error) => {
