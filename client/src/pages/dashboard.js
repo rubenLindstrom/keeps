@@ -11,9 +11,7 @@ const dashboard = () => {
       <Sidebar />
       <div className="inner-wrapper">
         <Nav />
-        <div className="editor">
-          <Editor />
-        </div>
+        <Editor />
       </div>
     </>
   );
