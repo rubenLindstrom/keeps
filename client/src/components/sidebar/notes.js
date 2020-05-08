@@ -64,6 +64,13 @@ const Note = ({ title, createdAt, body, id }) => {
   );
 };
 
+const BlankMessage = styled.p`
+  text-align: center;
+  background-color: #eee;
+  margin: 0;
+  padding: 0.5rem 0;
+`;
+
 const Notes = () => {
   const { notes } = useContext(NoteContext);
   const { user } = useContext(AuthContext);
@@ -77,11 +84,13 @@ const Notes = () => {
     note.owner === user.uid ? ownNotes.push(note) : sharedNotes.push(note)
   );
 
-  const renderNotes = (title, notes) => (
-    <Collapsible trigger={title} open easing="ease-out">
-      {notes.map((el) => (
-        <Note key={el.id} {...el} />
-      ))}
+  const renderNotes = (title, notes, emptyText) => (
+    <Collapsible trigger={title} open={notes.length > 0} easing="ease-out">
+      {notes.length ? (
+        notes.map((el) => <Note key={el.id} {...el} />)
+      ) : (
+        <BlankMessage>{emptyText}</BlankMessage>
+      )}
     </Collapsible>
   );
 
@@ -89,8 +98,16 @@ const Notes = () => {
     <div className="notes">
       {notes && (
         <>
-          {renderNotes("My notes", ownNotes)}
-          {renderNotes("Shared with me", sharedNotes)}
+          {renderNotes(
+            "My notes",
+            ownNotes,
+            "Add a note and it will appear here!"
+          )}
+          {renderNotes(
+            "Shared with me",
+            sharedNotes,
+            "When someone shares a note with you, it will appear here!"
+          )}
         </>
       )}
     </div>
