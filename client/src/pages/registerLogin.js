@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import AuthContext from "../contexts/authContext";
 
@@ -22,26 +22,28 @@ const RegisterLoginContainer = ({ quote, bg }) => {
   const [mode, setMode] = useState(MODES.WELCOME);
   const { login, register, errors, loading } = useContext(AuthContext);
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const cPasswordRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cPassword, setCPassword] = useState("");
 
   const modeToProps = {
     [MODES.LOGIN]: {
       title: "Login",
       onSubmit: (e) => {
         e.preventDefault();
-        login(emailRef.current.value, passwordRef.current.value);
+        login(email, password);
       },
       fields: [
         {
-          ref: emailRef,
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
           label: "Email",
           errors: errors.email,
           type: "email",
         },
         {
-          ref: passwordRef,
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
           label: "Password",
           error: errors.password,
           type: "password",
@@ -51,7 +53,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
         <p>
           Don't have an account?{" "}
           <span
-            style={{ color: "blue" }}
+            style={{ color: "blue", cursor: "pointer" }}
             onClick={() => setMode(MODES.REGISTER)}
           >
             Register here
@@ -63,27 +65,26 @@ const RegisterLoginContainer = ({ quote, bg }) => {
       title: "Register",
       onSubmit: (e) => {
         e.preventDefault();
-        register(
-          emailRef.current.value,
-          passwordRef.current.value,
-          cPasswordRef.current.value
-        );
+        register(email, password, cPassword);
       },
       fields: [
         {
-          ref: emailRef,
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
           label: "Email",
           errors: errors.email,
           type: "email",
         },
         {
-          ref: passwordRef,
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
           label: "Password",
           error: errors.password,
           type: "password",
         },
         {
-          ref: cPasswordRef,
+          value: cPassword,
+          onChange: (e) => setCPassword(e.target.value),
           label: "Confirm Password",
           error: errors.cPassword,
           type: "password",
@@ -92,7 +93,10 @@ const RegisterLoginContainer = ({ quote, bg }) => {
       bottomText: (
         <p>
           Already have an account?{" "}
-          <span style={{ color: "blue" }} onClick={() => setMode(MODES.LOGIN)}>
+          <span
+            style={{ color: "blue", cursor: "pointer" }}
+            onClick={() => setMode(MODES.LOGIN)}
+          >
             Log in here
           </span>
         </p>
@@ -139,9 +143,10 @@ const RegisterLoginView = ({
   <Card className="center" errors={errors} width={300}>
     <Title>{title}</Title>
     <form onSubmit={onSubmit}>
-      {fields.map(({ ref, label, errors, type }) => (
+      {fields.map(({ value, onChange, label, errors, type }) => (
         <TextField
-          inputRef={ref}
+          value={value}
+          onChange={onChange}
           label={label}
           fullWidth
           type={type}
