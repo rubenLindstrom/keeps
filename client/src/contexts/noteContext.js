@@ -15,7 +15,7 @@ import {
   doDeleteNote,
   doShare,
 } from "../services";
-import { isEmail, isEmpty, translateServerError } from "../helpers";
+import { isEmail, isEmpty, hasErrors, translateServerError } from "../helpers";
 
 const NoteContext = createContext();
 
@@ -106,6 +106,8 @@ const NoteProvider = ({ children }) => {
     RichTextEditor.createEmptyValue()
   );
   const { user, authenticated } = useContext(AuthContext);
+  const [shareLoading, setShareLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
 
   useEffect(() => {
     if (state.selectedNote)
@@ -139,23 +141,34 @@ const NoteProvider = ({ children }) => {
         })
       );
 
-  const addNote = (title) => {
-    if (isEmpty(title))
+  const addNote = async (title) => {
+    // Preventing double tap
+    if (addLoading) return false;
+    setAddLoading(true);
+    if (isEmpty(title)) {
       dispatch({ type: SET_ERROR, payload: { add: "Title can't be empty" } });
+      setAddLoading(false);
+      return false;
+    }
 
-    doAddNote(title)
-      .then((newNote) =>
+    return doAddNote(title)
+      .then((newNote) => {
         dispatch({
           type: ADD_NOTE,
           payload: newNote,
-        })
-      )
-      .catch((err) =>
+        });
+        return true;
+      })
+      .catch((err) => {
         dispatch({
           type: SET_ERROR,
           payload: translateServerError(err.response.data),
-        })
-      );
+        });
+        return false;
+      })
+      .finally(() => {
+        setAddLoading(false);
+      });
   };
 
   // Spara ej om värdet inte har ändrats
@@ -181,21 +194,24 @@ const NoteProvider = ({ children }) => {
   };
 
   const shareNote = (email) => {
-    if (isEmpty(email))
-      dispatch({
-        type: SET_ERROR,
-        payload: { share: "Email can't be empty" },
-      });
-    else if (!isEmail(email))
-      dispatch({
-        type: SET_ERROR,
-        payload: { share: "Invalid email" },
-      });
+    // Prevent double tap
+    if (shareLoading) return false;
+    setShareLoading(true);
+    const validation = {};
+    if (isEmpty(email)) validation.share = "Email can't be empty";
+    else if (!isEmail(email)) validation.share = "Invalid email";
     else if (state.selectedNote.owner !== user.uid)
+      validation.share = "You don't have permission to share this note";
+
+    if (hasErrors(validation)) {
+      setShareLoading(false);
       dispatch({
         type: SET_ERROR,
-        payload: { share: "You don't have permission to share this note" },
+        payload: validation,
       });
+      return false;
+    }
+
     return doShare(email, state.selectedNote)
       .then(() => true)
       .catch((err) => {
@@ -204,6 +220,9 @@ const NoteProvider = ({ children }) => {
           payload: translateServerError(err.response.data),
         });
         return false;
+      })
+      .finally(() => {
+        setShareLoading(false);
       });
   };
 
