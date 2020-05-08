@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 
 import AuthContext from "./contexts/authContext";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,6 +17,7 @@ const BG_THEME = "nature";
 const App = () => {
   const [quote, setQuote] = useState(null);
   const [bg, setBg] = useState(null);
+  const mainRef = useRef();
   const { authenticated } = useContext(AuthContext);
 
   useEffect(() => {
@@ -25,6 +26,8 @@ const App = () => {
         ([quote, image]) => {
           setQuote(quote);
           setBg(image);
+          mainRef.current.style.backgroundImage = `url(${image.lowResUrl})`;
+          fetchHighResBg(image.highResUrl);
         }
       );
     };
@@ -32,8 +35,16 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
+  const fetchHighResBg = (src) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      mainRef.current.style.backgroundImage = `url(${img.src})`;
+    };
+  };
+
   return (
-    <main style={{ backgroundImage: `url(${bg && bg.url})` }}>
+    <main ref={mainRef}>
       {authenticated !== null && authenticated ? (
         <Dashboard />
       ) : (
