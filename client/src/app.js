@@ -26,8 +26,14 @@ const App = () => {
         ([quote, image]) => {
           setQuote(quote);
           setBg(image);
-          mainRef.current.style.backgroundImage = `url(${image.lowResUrl})`;
-          fetchHighResBg(image.highResUrl);
+          // Begin by fetching lower res image. Upon load, start fetching high res
+          // and switch bg when fetch is done
+          fetchImage(image.lowResUrl, () => {
+            mainRef.current.style.backgroundImage = `url(${image.lowResUrl})`;
+            fetchImage(image.highResUrl, () => {
+              mainRef.current.style.backgroundImage = `url(${image.highResUrl})`;
+            });
+          });
         }
       );
     };
@@ -35,12 +41,10 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
-  const fetchHighResBg = (src) => {
+  const fetchImage = (src, cb) => {
     const img = new Image();
     img.src = src;
-    img.onload = () => {
-      mainRef.current.style.backgroundImage = `url(${img.src})`;
-    };
+    img.onload = cb;
   };
 
   return (

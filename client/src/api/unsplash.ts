@@ -14,16 +14,6 @@ const unsplash: Unsplash = new Unsplash({
   accessKey: process.env.REACT_APP_UNSPLASH_API_KEY || "",
 });
 
-export const search: (query: string) => Promise<string> = (query) =>
-  unsplash.search
-    .photos(query, 1, 1, { orientation: "landscape" })
-    .then(toJson)
-    .then((json) => {
-      console.log(json);
-      return json.results[0].urls.raw;
-    })
-    .catch(() => "");
-
 export const getRandomImage: (query: string) => Promise<BG> = (query) =>
   MOCK
     ? delay(mockBg, 500)
