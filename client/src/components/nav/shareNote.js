@@ -70,7 +70,11 @@ const ShareView = React.forwardRef(
         onClose={onClose}
         onAffirmative={onSubmit}
         affirmativeText="Share"
-        text={"Share this note to provide edit and read access"}
+        text={
+          <>
+            Invite some friends you would like to share <br /> this note with!
+          </>
+        }
       >
         <TextField
           onKeyPress={onKeyPress}

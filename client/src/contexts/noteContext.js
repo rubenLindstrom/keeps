@@ -166,9 +166,10 @@ const NoteProvider = ({ children }) => {
         return true;
       })
       .catch((err) => {
+        const error = { add: err.response.data.error };
         dispatch({
           type: SET_ERROR,
-          payload: translateServerError(err.response.data),
+          payload: translateServerError(error),
         });
         return false;
       })
@@ -213,14 +214,14 @@ const NoteProvider = ({ children }) => {
     }
   };
 
-  const shareNote = (email) => {
+  const shareNote = async (email) => {
     // Prevent double tap
     if (shareLoading) return false;
     setShareLoading(true);
     const validation = {};
     if (isEmpty(email)) validation.share = "Email can't be empty";
     else if (!isEmail(email)) validation.share = "Invalid email";
-    else if (state.selectedNote.owner !== user.uid)
+    else if (state.notes[state.selectedNote].owner !== user.uid)
       validation.share = "You don't have permission to share this note";
 
     if (hasErrors(validation)) {
@@ -243,9 +244,10 @@ const NoteProvider = ({ children }) => {
         return true;
       })
       .catch((err) => {
+        const error = { share: err.response.data.error };
         dispatch({
           type: SET_ERROR,
-          payload: translateServerError(err.response.data),
+          payload: translateServerError(error),
         });
         return false;
       })

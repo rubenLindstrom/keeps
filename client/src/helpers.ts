@@ -23,7 +23,7 @@ type FirebaseClientError = {
   message: string;
 };
 
-const errorFields = ["email", "password", "cPassword", "error"];
+const errorFields = ["email", "password", "cPassword", "error", "share", "add"];
 export const translateServerError: (err: ServerError) => ErrorResponse = (
   err: ServerError
 ) => {
