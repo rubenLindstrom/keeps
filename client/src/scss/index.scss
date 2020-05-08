@@ -83,6 +83,7 @@ main {
 }
 
 .sidebar {
+  border-right: 2px groove #666;
   background: linear-gradient(150deg, #666 10%, #999);
   display: flex;
   flex-direction: column;
@@ -124,9 +125,11 @@ main {
     width: 0px;
     overflow: hidden;
     transition: width 0.5s ease-out;
+    border: none;
 
     &.open {
       width: 200px;
+      border-right: 2px groove #666;
     }
   }
 
@@ -159,10 +162,6 @@ main {
       overflow: auto;
     }
   }
-}
-
-.sidebar {
-  border-right: 2px groove #666;
 }
 
 .center {

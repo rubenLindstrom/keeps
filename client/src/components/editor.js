@@ -13,6 +13,8 @@ import NoteContext from "../contexts/noteContext";
 import AddNote from "./sidebar/addNote";
 import { Error } from "./atoms";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 const EditorContainer = () => {
   const {
     selectedNote,
@@ -86,7 +88,7 @@ const Wrapper = styled.div`
 
 const NoNotes = () => (
   <Wrapper>
-    <img src={CountingStars} />
+    <img src={AddDocument} />
     <p>You have no notes! How about we fix that?</p>
     <span>
       <AddNote />
@@ -113,8 +115,12 @@ const EditorView = ({
   if (error || loading || noNotes) {
     let content;
     if (error) content = <ErrorMessage error={error.error} />;
-    // TODO: Insert spinner instead
-    else if (loading) content = <p className="big">Fetching notes...</p>;
+    else if (loading)
+      content = (
+        <Wrapper>
+          <CircularProgress size={70} />
+        </Wrapper>
+      );
     else content = <NoNotes />;
     return <div style={{ padding: "1rem" }}>{content}</div>;
   }

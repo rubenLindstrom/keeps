@@ -147,6 +147,7 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
   color: #fff;
   padding-right: 2rem;
   -webkit-box-pack: justify;
@@ -166,6 +167,7 @@ main {
 }
 
 .sidebar {
+  border-right: 2px groove #666;
   background: linear-gradient(150deg, #666 10%, #999);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -216,9 +218,11 @@ main {
     overflow: hidden;
     -webkit-transition: width 0.5s ease-out;
     transition: width 0.5s ease-out;
+    border: none;
   }
   .sidebar.open {
     width: 200px;
+    border-right: 2px groove #666;
   }
   .hamburger {
     position: absolute;
@@ -260,10 +264,6 @@ main {
 
 .editor > div > div:nth-child(2) {
   overflow: auto;
-}
-
-.sidebar {
-  border-right: 2px groove #666;
 }
 
 .center {
