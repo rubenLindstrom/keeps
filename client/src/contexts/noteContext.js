@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import AuthContext from "./authContext";
 import RichTextEditor from "react-rte";
+import { toast } from "react-toastify";
 
 import {
   doGetNotes,
@@ -157,6 +158,11 @@ const NoteProvider = ({ children }) => {
           type: ADD_NOTE,
           payload: newNote,
         });
+        toast.success(
+          <span>
+            <em>{title}</em> <strong>added!</strong>
+          </span>
+        );
         return true;
       })
       .catch((err) => {
@@ -171,7 +177,6 @@ const NoteProvider = ({ children }) => {
       });
   };
 
-  // Spara ej om värdet inte har ändrats
   const selectNote = (id) => {
     saveNote(state.selectedNote);
     dispatch({
@@ -183,12 +188,27 @@ const NoteProvider = ({ children }) => {
   const saveNote = (id) => {
     const body = editorValue.toString("html");
     if (state.notes[state.selectedNote].body !== body)
-      doUpdateNote(id, { body });
+      doUpdateNote(id, { body })
+        .then(() =>
+          toast.info(
+            <span>
+              <em>{state.notes[state.selectedNote].title}</em>{" "}
+              <strong> saved!</strong>
+            </span>
+          )
+        )
+        .catch(() => toast.warning("Could not save note!"));
   };
 
   const deleteNote = () => {
     if (state.selectedNote) {
       doDeleteNote(state.selectedNote);
+      toast.error(
+        <span>
+          <em>{state.notes[state.selectedNote].title}</em>{" "}
+          <strong>deleted!</strong>
+        </span>
+      );
       dispatch({ type: DELETE_NOTE });
     }
   };
@@ -213,7 +233,15 @@ const NoteProvider = ({ children }) => {
     }
 
     return doShare(email, state.selectedNote)
-      .then(() => true)
+      .then(() => {
+        toast.success(
+          <span>
+            <em>{state.notes[state.selectedNote].title}</em> shared with {email}
+            !
+          </span>
+        );
+        return true;
+      })
       .catch((err) => {
         dispatch({
           type: SET_ERROR,

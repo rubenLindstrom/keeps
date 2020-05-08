@@ -3,16 +3,19 @@ import ReactDOM from "react-dom";
 import App from "./app";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import { ToastContainer } from "react-toastify";
 
 import { AuthProvider } from "./contexts/authContext";
 import { NoteProvider } from "./contexts/noteContext";
 
 ReactDOM.render(
-  <AuthProvider>
-    <NoteProvider>
-      <App />
-    </NoteProvider>
-  </AuthProvider>,
+  <>
+    <AuthProvider>
+      <NoteProvider>
+        <App />
+      </NoteProvider>
+    </AuthProvider>
+  </>,
   document.getElementById("root")
 );
 
