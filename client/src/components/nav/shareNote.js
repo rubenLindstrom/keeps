@@ -16,10 +16,11 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
   const [open, setOpen] = useState(false);
   const inputRef = useRef();
 
-  const handleSubmit = (_) => {
-    shareNote(inputRef.current.value).then(
-      (success) => success && handleClose()
-    );
+  const handleSubmit = () => {
+    shareNote(inputRef.current.value).then((success) => {
+      console.log(success);
+      success && handleClose();
+    });
   };
 
   const handleOpen = () => {
@@ -34,7 +35,7 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
 
   // TODO: Check if you can share by pressing enter
   const handleKeyPress = (e) => {
-    if (isEnterKey(e)) shareNote(inputRef.current.value);
+    if (isEnterKey(e)) handleSubmit();
   };
 
   return (
