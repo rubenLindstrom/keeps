@@ -24,16 +24,14 @@ export const SpinnerButton: React.FC<{
 
 interface StyledCardProps {
   width: Number;
-  borderColor: string;
 }
 
 const StyledCard = styled.div<StyledCardProps>`
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
   padding: 1rem;
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
   max-width: ${(props) => (props.width ? `${props.width}px` : "initial")};
   background-color: #fff;
-  border-top: 5px solid ${(props) => props.borderColor};
 `;
 
 interface CardProps extends StyledCardProps {
@@ -47,7 +45,6 @@ export const Card: React.FC<CardProps> = ({
   className,
   width,
   errors,
-  borderColor,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -65,12 +62,7 @@ export const Card: React.FC<CardProps> = ({
   }, [errors]);
 
   return (
-    <StyledCard
-      ref={cardRef}
-      width={width}
-      className={className}
-      borderColor={borderColor}
-    >
+    <StyledCard ref={cardRef} width={width} className={className}>
       {children}
     </StyledCard>
   );

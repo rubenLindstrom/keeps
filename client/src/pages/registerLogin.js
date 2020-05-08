@@ -9,9 +9,9 @@ import WelcomeView from "./welcome";
 
 // MUI
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { COLORS } from "../constants";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 const MODES = {
   WELCOME: "WELCOME",
@@ -19,9 +19,15 @@ const MODES = {
   REGISTER: "REGISTER",
 };
 
+const useStyles = makeStyles((theme) => ({
+  green: { backgroundColor: COLORS.GREEN, color: "#fff" },
+  blue: { backgroundColor: COLORS.BLUE, color: "#fff" },
+}));
+
 const RegisterLoginContainer = ({ quote, bg }) => {
   const [mode, setMode] = useState(MODES.WELCOME);
   const { login, register, errors, loading } = useContext(AuthContext);
+  const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,7 +67,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           </span>
         </p>
       ),
-      color: COLORS.GREEN,
+      buttonClass: classes.green,
     },
     [MODES.REGISTER]: {
       title: "Register",
@@ -103,7 +109,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           </span>
         </p>
       ),
-      color: COLORS.BLUE,
+      buttonClass: classes.blue,
     },
   };
 
@@ -118,7 +124,9 @@ const RegisterLoginContainer = ({ quote, bg }) => {
       </div>
     );
   else if (mode === MODES.LOGIN || mode === MODES.REGISTER) {
-    const { title, onSubmit, fields, bottomText, color } = modeToProps[mode];
+    const { title, onSubmit, fields, bottomText, buttonClass } = modeToProps[
+      mode
+    ];
     return (
       <>
         <RegisterLoginView
@@ -128,7 +136,7 @@ const RegisterLoginContainer = ({ quote, bg }) => {
           loading={loading}
           fields={fields}
           bottomText={bottomText}
-          color={color}
+          buttonClass={buttonClass}
         />
         <BottomBar quote={quote} bg={bg} />
       </>
@@ -143,9 +151,9 @@ const RegisterLoginView = ({
   loading,
   fields,
   bottomText,
-  color,
+  buttonClass,
 }) => (
-  <Card className="center" errors={errors} width={300} borderColor={color}>
+  <Card className="center" errors={errors} width={300}>
     <h1>{title}</h1>
     <form onSubmit={onSubmit}>
       {fields.map(({ value, onChange, label, errors, type }) => (
@@ -163,7 +171,12 @@ const RegisterLoginView = ({
       ))}
       <br />
       <br />
-      <SpinnerButton type="submit" mt={5} loading={loading}>
+      <SpinnerButton
+        type="submit"
+        mt={5}
+        loading={loading}
+        className={buttonClass}
+      >
         Submit
       </SpinnerButton>
       <Error>{errors.error}</Error>
