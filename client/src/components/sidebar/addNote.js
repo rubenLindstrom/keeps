@@ -12,8 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "../modal";
 
 const AddNoteContainer = () => {
-  const inputRef = useRef();
   const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
   const { addNote, errors, clearErrors } = useContext(NoteContext);
 
   const handleKeyPress = (e) => {
@@ -21,22 +21,23 @@ const AddNoteContainer = () => {
   };
 
   const handleSubmit = () => {
-    addNote(inputRef.current.value).then((success) => success && handleClose());
+    addNote(title).then((success) => success && handleClose());
   };
 
   const handleClose = () => {
     clearErrors();
-    inputRef.current.value = "";
+    setTitle("");
     setOpen(false);
   };
 
   return (
     <AddNoteView
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
       open={open}
       onOpen={() => setOpen(true)}
       onClose={handleClose}
       onSubmit={handleSubmit}
-      inputRef={inputRef}
       onKeyPress={handleKeyPress}
       error={errors.add}
     />
@@ -48,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddNoteView = ({
+  value,
+  onChange,
   open,
   onOpen,
   onClose,
@@ -79,11 +82,12 @@ const AddNoteView = ({
         }
       >
         <TextField
+          value={value}
+          onChange={onChange}
           autoFocus
           error={error && true}
           helperText={error}
           onKeyPress={onKeyPress}
-          inputRef={inputRef}
           fullWidth
           label="Title"
           placeholder="My new awesome note"
