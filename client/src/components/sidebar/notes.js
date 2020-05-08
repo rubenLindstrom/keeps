@@ -39,6 +39,11 @@ const P = styled.p`
     font-size: 0.9rem;
     color: #333;
   }
+
+  &.date {
+    font-size: 0.8rem;
+    color: #333;
+  }
 `;
 
 const PREVIEW_LENGTH = 25;
@@ -54,7 +59,7 @@ const Note = ({ title, createdAt, body, id }) => {
     >
       <Upper className="upper-row">
         <P className="title">{title}</P>
-        <P>{createdAt.substring(0, 10)}</P>
+        <P className="date">{createdAt.substring(0, 10)}</P>
       </Upper>
       <P className="body">
         {body.replace(/<\/?[^>]+>/gi, " ").substring(0, PREVIEW_LENGTH)}

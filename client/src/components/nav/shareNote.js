@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import NoteContext from "../../contexts/noteContext";
 import { isEnterKey } from "../../helpers";
@@ -14,11 +14,10 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 const ShareContainer = React.forwardRef(({ disabled }, ref) => {
   const { shareNote, errors, clearErrors } = useContext(NoteContext);
   const [open, setOpen] = useState(false);
-  const inputRef = useRef();
+  const [email, setEmail] = useState("");
 
   const handleSubmit = () => {
-    shareNote(inputRef.current.value).then((success) => {
-      console.log(success);
+    shareNote(email).then((success) => {
       success && handleClose();
     });
   };
@@ -29,23 +28,23 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
 
   const handleClose = () => {
     clearErrors();
-    inputRef.current.value = "";
+    setEmail("");
     setOpen(false);
   };
 
-  // TODO: Check if you can share by pressing enter
   const handleKeyPress = (e) => {
     if (isEnterKey(e)) handleSubmit();
   };
 
   return (
     <ShareView
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
       disabled={disabled}
       open={open}
       onOpen={handleOpen}
       onClose={handleClose}
       onSubmit={handleSubmit}
-      inputRef={inputRef}
       onKeyPress={handleKeyPress}
       error={errors.share}
     />
@@ -54,7 +53,17 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
 
 const ShareView = React.forwardRef(
   (
-    { disabled, open, onOpen, onClose, onSubmit, inputRef, onKeyPress, error },
+    {
+      value,
+      onChange,
+      disabled,
+      open,
+      onOpen,
+      onClose,
+      onSubmit,
+      onKeyPress,
+      error,
+    },
     ref
   ) => (
     <>
@@ -78,8 +87,9 @@ const ShareView = React.forwardRef(
         }
       >
         <TextField
+          value={value}
+          onChange={onChange}
           onKeyPress={onKeyPress}
-          inputRef={inputRef}
           error={error && true}
           helperText={error}
           autoFocus
