@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import NoteContext from "../../contexts/noteContext";
@@ -74,18 +74,30 @@ const BlankMessage = styled.p`
 const Notes = () => {
   const { notes } = useContext(NoteContext);
   const { user } = useContext(AuthContext);
-
-  if (!notes) return <div className="notes"></div>;
+  const [ownOpen, setOwnOpen] = useState(false);
+  const [sharedOpen, setSharedOpen] = useState(false);
 
   const ownNotes = [];
   const sharedNotes = [];
 
-  Object.values(notes).forEach((note) =>
-    note.owner === user.uid ? ownNotes.push(note) : sharedNotes.push(note)
-  );
+  if (notes) {
+    Object.values(notes).forEach((note) =>
+      note.owner === user.uid ? ownNotes.push(note) : sharedNotes.push(note)
+    );
+  }
 
-  const renderNotes = (title, notes, emptyText) => (
-    <Collapsible trigger={title} open={notes.length > 0} easing="ease-out">
+  useEffect(() => {
+    ownNotes.length > 0 && setOwnOpen(true);
+  }, [ownNotes.length]);
+
+  useEffect(() => {
+    sharedNotes.length > 0 && setSharedOpen(true);
+  }, [sharedNotes.length]);
+
+  if (!notes) return <div className="notes"></div>;
+
+  const renderNotes = (title, open, notes, emptyText) => (
+    <Collapsible trigger={title} open={open} easing="ease-out">
       {notes.length ? (
         notes.map((el) => <Note key={el.id} {...el} />)
       ) : (
@@ -100,11 +112,13 @@ const Notes = () => {
         <>
           {renderNotes(
             "My notes",
+            ownOpen,
             ownNotes,
             "Add a note and it will appear here!"
           )}
           {renderNotes(
             "Shared with me",
+            sharedOpen,
             sharedNotes,
             "When someone shares a note with you, it will appear here!"
           )}

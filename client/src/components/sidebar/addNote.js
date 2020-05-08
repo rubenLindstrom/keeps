@@ -21,7 +21,7 @@ const AddNoteContainer = () => {
   };
 
   const handleSubmit = () => {
-    addNote(inputRef.current.value).then(handleClose);
+    addNote(inputRef.current.value).then((success) => success && handleClose());
   };
 
   const handleClose = () => {

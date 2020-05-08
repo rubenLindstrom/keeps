@@ -17,7 +17,9 @@ const ShareContainer = React.forwardRef(({ disabled }, ref) => {
   const inputRef = useRef();
 
   const handleSubmit = (_) => {
-    shareNote(inputRef.current.value).then(handleClose);
+    shareNote(inputRef.current.value).then(
+      (success) => success && handleClose()
+    );
   };
 
   const handleOpen = () => {
