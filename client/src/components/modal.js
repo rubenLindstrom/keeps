@@ -18,6 +18,7 @@ const Modal = ({
   onAffirmative,
   affirmativeText,
   loading,
+  warning,
 }) => {
   return (
     <Dialog open={open} onClose={onClose}>
@@ -27,12 +28,16 @@ const Modal = ({
         {children}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant="outlined" color="secondary">
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          color={warning ? "primary" : "secondary"}
+        >
           Cancel
         </Button>
         <SpinnerButton
           onClick={onAffirmative}
-          color="primary"
+          color={warning ? "secondary" : "primary"}
           spinnerColor="white"
           loading={loading}
           size={16}
