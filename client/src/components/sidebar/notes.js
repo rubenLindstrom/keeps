@@ -10,14 +10,14 @@ const Box = styled.div`
   box-sizing: border-box;
   width: 200px;
   border-bottom: 1px solid #666;
-  background-color: wheat;
   padding: 0.5rem;
   overflow: hidden;
   cursor: pointer;
+  background-color: #b5a586;
 
   &.selected {
-    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.5) inset;
-    background-color: #ccba97;
+    background-color: wheat;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.5);
   }
 `;
 
