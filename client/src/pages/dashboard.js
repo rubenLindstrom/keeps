@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 import Editor from "../components/editor";
 import Nav from "../components/nav/nav";
 import Sidebar from "../components/sidebar/sidebar";
 
-const dashboard = () => {
+const Dashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
-      <Sidebar />
+      <Sidebar open={sidebarOpen} />
       <div className="inner-wrapper">
-        <Nav />
+        <Nav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <Editor />
       </div>
     </>
   );
 };
 
-export default dashboard;
+export default Dashboard;

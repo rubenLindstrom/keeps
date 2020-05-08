@@ -177,6 +177,7 @@ main {
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
           box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;
   width: 200px;
+  z-index: 2;
 }
 
 .sidebar .notes {
@@ -203,6 +204,33 @@ main {
   display: block;
   height: 2px;
   background-color: #666;
+}
+
+.hamburger {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .sidebar {
+    width: 0px;
+    overflow: hidden;
+    -webkit-transition: width 0.5s ease-out;
+    transition: width 0.5s ease-out;
+  }
+  .sidebar.open {
+    width: 200px;
+  }
+  .hamburger {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 5px;
+    color: #fff;
+    display: block;
+  }
+  .hamburger:hover {
+    cursor: pointer;
+  }
 }
 
 .editor {

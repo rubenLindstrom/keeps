@@ -10,9 +10,9 @@ import { COLORS } from "../../constants";
 import AddNote from "./addNote";
 import Notes from "./notes";
 
-const Sidebar = () => {
+const Sidebar = ({ open }) => {
   return (
-    <div className="sidebar">
+    <div className={`sidebar${open ? " open" : ""}`}>
       <AddNote />
       <Notes />
       <UserControls />
