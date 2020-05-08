@@ -81,7 +81,7 @@ main {
 }
 
 .sidebar {
-  background-color: #666;
+  background: linear-gradient(150deg, #666 10%, #999);
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5) inset;

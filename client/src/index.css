@@ -165,7 +165,7 @@ main {
 }
 
 .sidebar {
-  background-color: #666;
+  background: linear-gradient(150deg, #666 10%, #999);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
