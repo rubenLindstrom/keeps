@@ -143,7 +143,6 @@ main {
 }
 
 .nav {
-  height: 109px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -263,6 +262,7 @@ main {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  overflow: auto;
 }
 
 .editor > div > div:nth-child(2) {
