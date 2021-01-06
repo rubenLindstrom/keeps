@@ -17,7 +17,7 @@
 		"@types/styled-components": "^5.1.0",
 		"@types/unsplash-js": "^6.0.1",
 		"@types/uuid": "^7.0.3",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"firebase": "^7.14.0",
 		"react": "^16.13.0",
 		"react-collapsible": "^2.7.0",
